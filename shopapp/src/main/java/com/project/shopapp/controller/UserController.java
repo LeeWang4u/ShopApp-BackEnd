@@ -1,5 +1,6 @@
 package com.project.shopapp.controller;
 
+import com.project.shopapp.models.User;
 import com.project.shopapp.services.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("${api.prefix}/users")
 public class UserController {
     private final IUserService userService;
     @PostMapping("/register")
@@ -33,8 +34,9 @@ public class UserController {
             if(!userDTO.getPassword().equals(userDTO.getRetypePassword())){
                 return ResponseEntity.badRequest().body("Password does not match");
             }
-            userService.createUser(userDTO);
-            return ResponseEntity.ok("Register successfully");
+            User user = userService.createUser(userDTO);
+            //return ResponseEntity.ok("Register successfully");
+            return ResponseEntity.ok(user);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
