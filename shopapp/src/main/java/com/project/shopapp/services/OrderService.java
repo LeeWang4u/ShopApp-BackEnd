@@ -7,6 +7,7 @@ import com.project.shopapp.models.OrderStatus;
 import com.project.shopapp.models.User;
 import com.project.shopapp.repositories.OrderRepository;
 import com.project.shopapp.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.weaver.ast.Or;
 import org.modelmapper.ModelMapper;
@@ -25,6 +26,7 @@ public class OrderService implements IOrderService{
     private final OrderRepository orderRepository;
     private final ModelMapper modelMapper;
     @Override
+    @Transactional
     public Order createOrder(OrderDTO orderDTO) throws Exception {
         //tìm xem user'id có tồn tại ko
         User user = userRepository
@@ -59,6 +61,7 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    @Transactional
     public Order updateOrder(Long id, OrderDTO orderDTO)
             throws DataNotFoundException {
         Order order = orderRepository.findById(id).orElseThrow(() ->
@@ -76,6 +79,7 @@ public class OrderService implements IOrderService{
     }
 
     @Override
+    @Transactional
     public void deleteOrder(Long id) {
         Order order = orderRepository.findById(id).orElse(null);
         //no hard-delete, => please soft-delete

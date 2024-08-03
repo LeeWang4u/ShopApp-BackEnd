@@ -12,7 +12,8 @@ import com.project.shopapp.models.*;
 public interface IProductService {
     Product createProduct(ProductDTO productDTO) throws Exception;
     Product getProductById(long id) throws Exception;
-    Page<ProductResponse> getAllProducts(PageRequest pageRequest);
+    public Page<ProductResponse> getAllProducts(String keyword,
+                                                Long categoryId, PageRequest pageRequest);
     Product updateProduct(long id, ProductDTO productDTO) throws Exception;
     void deleteProduct(long id);
     boolean existsByName(String name);

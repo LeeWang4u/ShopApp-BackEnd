@@ -8,6 +8,7 @@ import com.project.shopapp.models.Product;
 import com.project.shopapp.repositories.OrderDetailRepository;
 import com.project.shopapp.repositories.OrderRepository;
 import com.project.shopapp.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ public class OrderDetailService implements IOrderDetailService{
     private final OrderDetailRepository orderDetailRepository;
     private final ProductRepository productRepository;
     @Override
+    @Transactional
     public OrderDetail createOrderDetail(OrderDetailDTO orderDetailDTO) throws Exception {
         //tìm xem orderId có tồn tại ko
         Order order = orderRepository.findById(orderDetailDTO.getOrderId())
@@ -48,6 +50,7 @@ public class OrderDetailService implements IOrderDetailService{
     }
 
     @Override
+    @Transactional
     public OrderDetail updateOrderDetail(Long id, OrderDetailDTO orderDetailDTO)
             throws DataNotFoundException {
         //tìm xem order detail có tồn tại ko đã
@@ -68,6 +71,7 @@ public class OrderDetailService implements IOrderDetailService{
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         orderDetailRepository.deleteById(id);
     }
