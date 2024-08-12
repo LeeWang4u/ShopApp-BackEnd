@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import com.project.shopapp.models.*;
 
+import java.util.List;
+
 @Service
 public interface IProductService {
     Product createProduct(ProductDTO productDTO) throws Exception;
@@ -20,5 +22,7 @@ public interface IProductService {
     ProductImage createProductImage(
             Long productId,
             ProductImageDTO productImageDTO) throws Exception;
+
+    List<Product> findProductsByIds(List<Long> productIds);
 
 }
