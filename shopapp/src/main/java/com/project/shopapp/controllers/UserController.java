@@ -11,10 +11,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.project.shopapp.dtos.*;
 import org.springframework.web.servlet.LocaleResolver;
 
@@ -25,6 +22,7 @@ import java.util.Locale;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/users")
+@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Accept-Language")
 public class UserController {
     private final IUserService userService;
     private final MessageSource messageSource;
@@ -50,6 +48,7 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody UserLoginDTO userLoginDTO,

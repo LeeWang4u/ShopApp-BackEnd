@@ -34,19 +34,6 @@ public class WebSecurityConfig {
     @Value("${api.prefix}")
     private String apiPrefix;
     @Bean
-  /*  public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception{
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests(requests -> {
-                            requests
-                                    .requestMatchers("**")
-                                    .permitAll();
-                        });
-        return http.build();
-    } */
-                    //Pair.of(String.format("%s/products", apiPrefix), "GET"),
-
     public SecurityFilterChain securityFilterChain(HttpSecurity http)  throws Exception{
         http
                 .csrf(AbstractHttpConfigurer::disable)
@@ -56,7 +43,8 @@ public class WebSecurityConfig {
                             .requestMatchers(
                                     String.format("%s/roles**", apiPrefix),
                                     String.format("%s/users/register", apiPrefix),
-                                    String.format("%s/users/login", apiPrefix)
+                                    String.format("%s/users/login", apiPrefix),
+                                    String.format("%s/products/by-ids", apiPrefix)
                             )
                             .permitAll()
 
@@ -97,6 +85,9 @@ public class WebSecurityConfig {
                             .requestMatchers(POST,
                                     String.format("%s/orders/**", apiPrefix)).hasAnyRole(Role.USER)
 
+                            .requestMatchers(POST,
+                                    String.format("%s/orders", apiPrefix)).hasAnyRole(Role.USER)
+
                             .requestMatchers(GET,
                                     String.format("%s/orders/**", apiPrefix)).permitAll()
 
@@ -136,6 +127,16 @@ public class WebSecurityConfig {
                 httpSecurityCorsConfigurer.configurationSource(source);
             }
         });
+//        http.cors(cors -> {
+//            CorsConfiguration configuration = new CorsConfiguration();
+//            configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+//            configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+//            configuration.setAllowedHeaders(List.of("authorization", "content-type", "x-auth-token"));
+//            configuration.setExposedHeaders(List.of("x-auth-token"));
+//            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//            source.registerCorsConfiguration("/**", configuration);
+//            cors.configurationSource(source);
+//        });
         return http.build();
     }
 
