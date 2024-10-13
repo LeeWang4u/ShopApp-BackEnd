@@ -64,19 +64,6 @@ public class UserController {
                     userLoginDTO.getPassword(),
                     userLoginDTO.getRoleId() == null ? 1 : userLoginDTO.getRoleId()
             );
-//            Locale locale = localeResolver.resolveLocale(request);
-//            return ResponseEntity.ok(LoginResponse.builder()
-//                    .message(messageSource
-//                            .getMessage("user.login.login_successfully", null, locale))
-//                    .token(token)
-//                    .build());
-//        } catch(Exception e){
-//            return ResponseEntity.badRequest().body(
-//                    LoginResponse.builder()
-//                            .message( e.getMessage())
-//                            .build());
-//
-//        }
             return ResponseEntity.ok(LoginResponse.builder()
                     .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
                     .token(token)
