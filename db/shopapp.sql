@@ -1,0 +1,1408 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 10, 2025 at 11:00 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `shopapp`
+--
+CREATE DATABASE IF NOT EXISTS `shopapp` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `shopapp`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL DEFAULT '' COMMENT 'Tên danh mục, vd: đồ điện tử'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`id`, `name`) VALUES
+(1, 'Heartbreak Anniversary'),
+(2, 'Last dance'),
+(3, 'Haru haru'),
+(4, 'Baby monster');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `fullname` varchar(100) DEFAULT '',
+  `email` varchar(100) DEFAULT '',
+  `phone_number` varchar(20) NOT NULL,
+  `address` varchar(200) NOT NULL,
+  `note` varchar(100) DEFAULT '',
+  `order_date` datetime DEFAULT current_timestamp(),
+  `status` enum('pending','processing','shipped','delivered','cancelled') DEFAULT NULL COMMENT 'Trạng thái đơn hàng',
+  `total_money` float DEFAULT NULL CHECK (`total_money` >= 0),
+  `shipping_method` varchar(100) DEFAULT NULL,
+  `shipping_address` varchar(200) DEFAULT NULL,
+  `shipping_date` date DEFAULT NULL,
+  `tracking_number` varchar(100) DEFAULT NULL,
+  `payment_method` varchar(100) DEFAULT NULL,
+  `active` tinyint(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id`, `user_id`, `fullname`, `email`, `phone_number`, `address`, `note`, `order_date`, `status`, `total_money`, `shipping_method`, `shipping_address`, `shipping_date`, `tracking_number`, `payment_method`, `active`) VALUES
+(1, 1, 'Nguyen Van abc', 'ahihi@gmail.com', '1234567890', 'manthien', 'please', '2024-07-16 09:57:35', 'pending', 123, 'express', NULL, NULL, NULL, 'cod', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `price` float DEFAULT NULL CHECK (`price` >= 0),
+  `number_of_products` int(11) DEFAULT NULL CHECK (`number_of_products` > 0),
+  `total_money` float DEFAULT NULL CHECK (`total_money` >= 0),
+  `color` varchar(20) DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `price`, `number_of_products`, `total_money`, `color`) VALUES
+(1, 1, 8, 12.33, 2, 100.45, 'red');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(350) DEFAULT NULL COMMENT 'Tên sản phẩm',
+  `price` float NOT NULL CHECK (`price` >= 0),
+  `thumbnail` varchar(300) DEFAULT '',
+  `description` longtext DEFAULT '',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `price`, `thumbnail`, `description`, `created_at`, `updated_at`, `category_id`) VALUES
+(8, 'Gorgeous Silk Bag', 80382200, '7d747385-a4ab-4adf-b290-77c18e616310_i7.jpg', 'Ipsum ratione blanditiis nihil dignissimos dolores.', '2024-07-14 15:48:05', '2024-07-14 15:48:05', 2),
+(9, 'Lightweight Steel Chair', 14342500, '015a1117-b64a-47ab-8fb1-65b31bb36713_i8.jpg', 'Est id est.', '2024-07-14 15:48:05', '2024-07-14 15:48:05', 1),
+(10, 'Enormous Wool Clock', 58295000, '48b657f1-b48d-4b82-b1dc-1cfbb6f7d81d_i10.jpg', 'Corrupti rerum est quia.', '2024-07-14 15:48:05', '2024-07-14 15:48:05', 2),
+(11, 'Rustic Aluminum Shoes', 8100780, 'f3dfa5da-20e8-4373-9e96-e75d63471669_i11.jpg', 'Eveniet sint maxime.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(12, 'Enormous Marble Shoes', 65730200, '8efe8917-bd61-4944-b461-ccca00eaf4da_i13.jpg', 'Quis inventore nobis odio ullam suscipit ipsam officia.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(13, 'Practical Steel Bottle', 56001900, 'ce722aba-1101-487b-aa12-f8b38ce1c26c_i14.jpg', 'Et adipisci et odit totam ut sit ipsum.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(14, 'Aerodynamic Leather Gloves', 59261600, '88345b2b-8dd5-4760-a4fa-00aa9101c813_i22.jpg', 'Velit eius dolore consequatur.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(15, 'Gorgeous Linen Bag', 40194800, 'c2fca7fa-d53e-40ab-8979-d23f8e30b79a_i52.jpg', 'Velit dicta est praesentium esse ipsa facere dolorum.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(16, 'Intelligent Plastic Chair', 851675, '004a6f25-8a78-4847-819d-3b3bd286612b_i51.jpg', 'Qui non exercitationem fugiat.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(17, 'Sleek Steel Shirt', 23871200, '3784cf6d-3394-4797-a1f0-ee80f3af6efc_i50.jpg', 'Praesentium assumenda sed illo iusto.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(18, 'Small Iron Pants', 75270300, '6dff9c20-aed9-4867-ba22-5c3e8934fa10_i50.jpg', 'Deserunt consectetur pariatur molestias accusantium.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(19, 'Enormous Bronze Lamp', 52847200, '3a91dcec-c7b0-4823-a8fe-cd7ed2f1ffc6_i49.jpg', 'Enim quo ad et impedit dolor amet.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(20, 'Practical Aluminum Gloves', 10182200, '7a077340-dbd1-47fa-871a-896465cf6d9a_i48.jpg', 'Esse vel qui ut.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(21, 'Rustic Iron Bench', 69924200, '662779bf-dccc-4fd4-a3ff-2776b7e33c56_i47.jpg', 'Aut rerum minima nam amet.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(22, 'Sleek Granite Car', 11348600, '485b31fb-b78f-4a5a-a02d-e5b92d830db7_i46.jpg', 'Non et amet est et quos.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(23, 'Lightweight Marble Table', 50220600, 'd6af8f20-1dc4-4ecc-9ab9-7171e08545c2_i36.jpg', 'Consequatur aut perferendis sunt.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(24, 'Intelligent Wool Clock', 18568800, 'ce9dc6b0-64f8-4cda-90ba-c83eb0003462_i30.jpg', 'Voluptatum ea hic veniam consequuntur.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(25, 'Small Copper Bottle', 24128200, 'f30a09f3-f552-4ef5-b4b7-96682ed13d19_i26.jpg', 'Doloribus saepe placeat aut ex assumenda suscipit eos.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(26, 'Awesome Silk Lamp', 1499030, 'f8256238-6be9-497a-80e2-7c3c2d8a9825_i21.jpg', 'Expedita culpa ut nihil necessitatibus.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(27, 'Lightweight Paper Wallet', 55614300, '3ea109a2-8443-4546-9727-a8cde2ada57f_i50.jpg', 'Excepturi et quia in.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(28, 'Heavy Duty Leather Keyboard', 53296600, 'd89bee0c-0da6-4874-bd04-caf32b3df67a_i46.jpg', 'Doloremque ut sunt quos ea.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(29, 'Rustic Bronze Lamp', 33678900, '09682758-86c7-42fa-9acc-0afd284b7529_i49.jpg', 'Quo distinctio perspiciatis totam eos et atque.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(30, 'Awesome Wool Hat', 53756800, 'f5bb4221-a51a-414c-9238-54bea5ed39c3_i52.jpg', 'Perferendis fuga nihil sint.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(31, 'Fantastic Paper Shoes', 35746800, 'dfa7553e-12ff-445b-b6a3-dd451b54ba8d_i44.jpg', 'Tempora rerum cumque autem.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(32, 'Fantastic Paper Bench', 68974900, NULL, 'Facere dolor rerum omnis illo beatae quia.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(33, 'Sleek Plastic Hat', 63119200, NULL, 'Incidunt ut vel sunt rerum eum.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(34, 'Aerodynamic Iron Car', 67664600, NULL, 'Qui harum error dolor officia sunt non delectus.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(35, 'Fantastic Linen Lamp', 74433600, NULL, 'Qui numquam quia quo.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(36, 'Fantastic Granite Lamp', 71789000, NULL, 'Reiciendis et ut voluptatum nostrum ut eius vel.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(37, 'Fantastic Bronze Shirt', 42115200, NULL, 'Quibusdam consequatur perferendis.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(38, 'Ergonomic Wool Gloves', 14059800, NULL, 'Accusamus veritatis sit odit dolore corporis.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(39, 'Synergistic Linen Plate', 59339900, NULL, 'Quibusdam magnam molestias recusandae et aut quo.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(40, 'Intelligent Cotton Clock', 86139700, NULL, 'Numquam possimus quo.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(41, 'Mediocre Concrete Shoes', 14352000, NULL, 'Molestiae aut voluptatem odio.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(42, 'Enormous Copper Car', 64276600, NULL, 'Omnis quo at saepe ipsum.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(43, 'Incredible Paper Shirt', 45012000, NULL, 'Rerum dignissimos saepe cum.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(44, 'Sleek Concrete Gloves', 53600700, NULL, 'Eos quis occaecati.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(45, 'Fantastic Iron Gloves', 81060000, NULL, 'Veniam qui qui excepturi inventore sed.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(46, 'Heavy Duty Rubber Bench', 17551300, NULL, 'Quas enim molestiae est est tempora saepe.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(47, 'Heavy Duty Bronze Watch', 20124800, NULL, 'Quasi qui quaerat praesentium occaecati sequi enim.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(48, 'Fantastic Aluminum Clock', 75153900, NULL, 'Ab vel aut praesentium.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(49, 'Aerodynamic Wooden Knife', 4957580, NULL, 'Est eos porro eveniet.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(50, 'Small Wooden Chair', 32971400, NULL, 'Soluta consequatur debitis iusto.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(51, 'Sleek Marble Coat', 88376900, NULL, 'Repellat sint magnam occaecati.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(52, 'Lightweight Cotton Knife', 15094100, NULL, 'A velit aut.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(53, 'Sleek Cotton Bag', 1745410, NULL, 'Porro deleniti qui cupiditate enim qui.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(54, 'Durable Iron Wallet', 4428020, NULL, 'Et eaque deleniti voluptas veritatis et.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(55, 'Practical Concrete Car', 38063400, NULL, 'Temporibus temporibus sed expedita doloremque.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(56, 'Intelligent Plastic Shoes', 4766020, NULL, 'Saepe corrupti aliquid magni aut consequuntur.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(57, 'Sleek Paper Hat', 77592000, NULL, 'Reiciendis accusamus id assumenda quaerat ab eos.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(58, 'Small Silk Gloves', 82909400, NULL, 'Quasi excepturi fugiat accusamus quidem.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(59, 'Durable Linen Gloves', 38615600, NULL, 'Eveniet et voluptas est eum adipisci neque.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(60, 'Intelligent Granite Watch', 43143600, NULL, 'Sed voluptas enim veniam repellat ea.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(61, 'Lightweight Copper Bag', 35110800, NULL, 'Eius sed est quam sit ipsam ipsa.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(62, 'Intelligent Wooden Lamp', 77314000, NULL, 'Delectus quisquam aliquid repudiandae officiis vel velit veniam.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(63, 'Incredible Bronze Plate', 27455400, NULL, 'Quas similique minima pariatur non provident et.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(64, 'Intelligent Concrete Clock', 69913600, NULL, 'Dolor et consequuntur.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(65, 'Heavy Duty Granite Clock', 13485700, NULL, 'Soluta ab ab amet architecto quia expedita.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(66, 'Practical Paper Coat', 33671000, NULL, 'Quo iste sed voluptatem nihil deleniti.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(67, 'Rustic Cotton Lamp', 52246900, NULL, 'Incidunt accusamus qui accusamus voluptas quibusdam ducimus.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(68, 'Aerodynamic Wooden Chair', 37304400, NULL, 'Dolores laudantium nesciunt repellendus et velit aliquam amet.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(69, 'Mediocre Paper Shirt', 35166600, NULL, 'Qui molestias nisi.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(70, 'Small Bronze Knife', 47448400, NULL, 'Fugiat aut temporibus eligendi qui neque qui.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(71, 'Lightweight Rubber Computer', 14714800, NULL, 'Nemo omnis suscipit et quidem.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(72, 'Rustic Paper Pants', 48708400, NULL, 'Necessitatibus eius occaecati deserunt dolores iusto dolores velit.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(73, 'Awesome Bronze Bag', 46946500, NULL, 'Commodi temporibus vel corporis fugiat excepturi nemo.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(74, 'Gorgeous Wool Chair', 17779600, NULL, 'Molestias non est sed id aut sunt.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(75, 'Durable Wool Gloves', 28105700, NULL, 'Tenetur in maiores enim.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(76, 'Sleek Linen Gloves', 48344500, NULL, 'Vitae tempore sunt eum excepturi quo sed.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(77, 'Synergistic Iron Coat', 29218100, NULL, 'Quibusdam beatae quos.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(78, 'Lightweight Wool Lamp', 20709800, NULL, 'Id enim sunt dolor ad culpa ratione voluptates.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(79, 'Heavy Duty Iron Gloves', 66705400, NULL, 'Ut nostrum est sit qui id aspernatur veniam.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(80, 'Intelligent Aluminum Pants', 39243600, NULL, 'Rerum qui et ab quisquam est.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 3),
+(81, 'Fantastic Concrete Lamp', 23458700, NULL, 'Vel ex eligendi vero autem.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(82, 'Ergonomic Cotton Wallet', 61245900, NULL, 'Doloribus tempora rerum illum corporis dolor.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(83, 'Enormous Rubber Coat', 31400600, NULL, 'Repellat culpa repellendus quod id odit.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 2),
+(84, 'Aerodynamic Wooden Plate', 67375800, NULL, 'Id perspiciatis sed est et similique.', '2024-07-14 15:48:06', '2024-07-14 15:48:06', 1),
+(85, 'Incredible Rubber Bag', 28799900, NULL, 'Velit eveniet expedita accusantium.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(86, 'Synergistic Linen Shoes', 28282400, NULL, 'Vel et sit reiciendis.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(87, 'Aerodynamic Copper Bench', 39399700, NULL, 'Sunt laborum doloremque voluptatem est est.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(88, 'Lightweight Aluminum Car', 48793000, NULL, 'Voluptas nemo et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(89, 'Synergistic Linen Wallet', 21492900, NULL, 'Voluptatum quo amet consequuntur recusandae nobis.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(90, 'Enormous Paper Bag', 22691400, NULL, 'Consequuntur accusantium atque est.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(91, 'Heavy Duty Granite Hat', 11590600, NULL, 'Adipisci rerum corporis soluta inventore ipsam.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(92, 'Small Copper Coat', 21208500, NULL, 'Occaecati dicta dolore error id nihil.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(93, 'Mediocre Wooden Shoes', 50718400, NULL, 'Ad aut deserunt.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(94, 'Awesome Silk Hat', 29598700, NULL, 'Magni distinctio aperiam blanditiis.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(95, 'Incredible Aluminum Knife', 57405700, NULL, 'Corrupti nam autem labore optio amet porro.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(96, 'Mediocre Concrete Keyboard', 44445100, NULL, 'Molestiae amet maxime magnam ea.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(97, 'Gorgeous Granite Clock', 82154200, NULL, 'Magnam officia consectetur sit.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(98, 'Practical Plastic Bottle', 21246600, NULL, 'Natus ad ea quisquam.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(99, 'Rustic Silk Wallet', 73547000, NULL, 'Voluptates perferendis eum eaque quod eveniet.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(100, 'Intelligent Steel Shoes', 19861700, NULL, 'Et molestiae ut itaque dolore sint dolorem cumque.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(101, 'Ergonomic Linen Coat', 75688100, NULL, 'Id beatae magnam dolor sed natus.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(102, 'Fantastic Steel Computer', 74867600, NULL, 'Autem occaecati eligendi.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(103, 'Synergistic Concrete Computer', 77806400, NULL, 'Reprehenderit soluta occaecati suscipit molestiae quo vel.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(104, 'Sleek Paper Bench', 89498700, NULL, 'Dolorem saepe consequuntur dolorem.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(105, 'Enormous Wool Table', 63299700, NULL, 'Et reprehenderit et architecto qui fugiat unde.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(106, 'Lightweight Silk Computer', 22027500, NULL, 'Ut nemo nostrum fugit.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(107, 'Incredible Steel Plate', 19067100, NULL, 'Consequatur magni mollitia neque similique autem.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(108, 'Enormous Linen Chair', 19508700, NULL, 'Repudiandae nobis est qui tenetur velit quia.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(109, 'Enormous Linen Bag', 36062000, NULL, 'Ut omnis non recusandae occaecati itaque consequuntur tempore.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(110, 'Heavy Duty Steel Shirt', 8199790, NULL, 'Nam doloribus minus temporibus.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(111, 'Ergonomic Plastic Bench', 83316400, NULL, 'Quis quia ut explicabo ea adipisci est.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(112, 'Incredible Aluminum Car', 17955200, NULL, 'Sed sequi repellat ipsum.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(113, 'Rustic Bronze Bag', 68594300, NULL, 'Consequatur dolores culpa in.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(114, 'Incredible Steel Hat', 72344200, NULL, 'Vero eaque nostrum modi ducimus.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(115, 'Fantastic Wooden Computer', 30056100, NULL, 'Doloribus consectetur nesciunt sit inventore modi eum dolores.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(116, 'Fantastic Marble Wallet', 31850500, NULL, 'Eaque voluptate voluptate.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(117, 'Heavy Duty Marble Watch', 26183100, NULL, 'Odio quo aut quasi consequuntur sint.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(118, 'Rustic Linen Knife', 75857500, NULL, 'In voluptas qui.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(119, 'Aerodynamic Cotton Plate', 44876600, NULL, 'Eligendi non labore in soluta consequatur et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(120, 'Synergistic Concrete Bag', 37820200, NULL, 'Rerum hic voluptas consectetur non et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(121, 'Practical Linen Bottle', 19116900, NULL, 'Et aliquid dolore hic.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(122, 'Gorgeous Iron Hat', 38919000, NULL, 'Nesciunt excepturi autem.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(123, 'Aerodynamic Bronze Gloves', 19214600, NULL, 'Sit et excepturi.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(124, 'Synergistic Rubber Bottle', 8609550, NULL, 'Voluptatem in commodi.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(125, 'Heavy Duty Copper Gloves', 38219500, NULL, 'Repellat at qui et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(126, 'Rustic Marble Clock', 47691400, NULL, 'Autem velit consectetur est deserunt omnis et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(127, 'Heavy Duty Wool Lamp', 24502600, NULL, 'Quo est officia magnam asperiores incidunt tempora et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(128, 'Heavy Duty Plastic Watch', 19855300, NULL, 'Odio corrupti libero quo.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(129, 'Sleek Wooden Pants', 31960400, NULL, 'Quas temporibus consequatur et saepe commodi distinctio est.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(130, 'Synergistic Plastic Bench', 88791000, NULL, 'Enim repellat consectetur aut.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(131, 'Aerodynamic Iron Chair', 62377800, NULL, 'Voluptas amet quaerat nihil.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(132, 'Synergistic Copper Lamp', 12754100, NULL, 'Quia laboriosam vitae.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(133, 'Enormous Bronze Hat', 70945000, NULL, 'Perferendis quibusdam omnis maiores sapiente dolorem.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(134, 'Heavy Duty Aluminum Table', 21007900, NULL, 'Tempore et dolor eos dolorum magni occaecati.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(135, 'Heavy Duty Plastic Car', 9023520, NULL, 'Itaque quo amet saepe aliquam.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(136, 'Rustic Leather Plate', 76102300, NULL, 'Ad deserunt enim voluptatem rerum.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(137, 'Incredible Marble Car', 23731500, NULL, 'Accusantium dolorem tenetur rerum.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(138, 'Rustic Leather Table', 13968100, NULL, 'A id voluptatum.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(139, 'Practical Leather Gloves', 23504100, NULL, 'Aut sit culpa exercitationem.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(140, 'Incredible Silk Watch', 84336400, NULL, 'Qui doloremque dolores blanditiis ab aut officiis voluptates.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(141, 'Lightweight Aluminum Plate', 89129300, NULL, 'Dolor et asperiores in nobis quasi.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(142, 'Gorgeous Plastic Bag', 29597600, NULL, 'Natus qui incidunt et sit in beatae voluptas.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(143, 'Sleek Silk Car', 30876100, NULL, 'Delectus eaque asperiores et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(144, 'Enormous Concrete Clock', 57520000, NULL, 'Neque repellat reiciendis assumenda minima suscipit voluptatem.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(145, 'Gorgeous Paper Keyboard', 22641500, NULL, 'Numquam itaque mollitia amet nisi.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(146, 'Heavy Duty Iron Hat', 43958100, NULL, 'Natus quis harum culpa expedita velit.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(147, 'Awesome Concrete Chair', 3408570, NULL, 'Alias blanditiis vel dolores iste voluptatem.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(148, 'Gorgeous Rubber Wallet', 71005600, NULL, 'Repudiandae ex earum cupiditate eaque sit.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(149, 'Fantastic Aluminum Knife', 19743700, NULL, 'Aut quia sit aut qui eos ut temporibus.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(150, 'Heavy Duty Linen Clock', 49783100, NULL, 'Reiciendis illo autem aliquam repellat doloribus qui asperiores.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(151, 'Aerodynamic Silk Computer', 84009300, NULL, 'Et perferendis perferendis asperiores praesentium.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(152, 'Small Copper Table', 60155000, NULL, 'Hic est autem vel nesciunt ab.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(153, 'Synergistic Granite Bottle', 33988500, NULL, 'Perspiciatis dignissimos ratione non perspiciatis nobis dolores quis.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(154, 'Lightweight Leather Bench', 74148300, NULL, 'Vitae vel similique voluptatum.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(155, 'Gorgeous Steel Hat', 34306400, NULL, 'Neque porro perferendis cupiditate voluptatem dolor.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(156, 'Heavy Duty Silk Bottle', 6637060, NULL, 'Est itaque rerum dolore nihil cupiditate voluptates.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(157, 'Aerodynamic Cotton Table', 50429800, NULL, 'Repudiandae voluptas vitae reprehenderit fuga.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(158, 'Gorgeous Bronze Plate', 56539600, NULL, 'Harum itaque quia numquam.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(159, 'Practical Concrete Wallet', 2059010, NULL, 'Sit quas expedita.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(160, 'Intelligent Concrete Coat', 78807100, NULL, 'Corporis quidem fuga quae.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(161, 'Awesome Silk Bag', 26903700, NULL, 'Earum facilis alias atque commodi culpa molestias deserunt.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(162, 'Rustic Rubber Bench', 42229300, NULL, 'Culpa deserunt quaerat quibusdam.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(163, 'Mediocre Bronze Shoes', 390853, NULL, 'Ipsum occaecati non dolore sed fugiat iure et.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(164, 'Rustic Cotton Wallet', 9766450, NULL, 'Quisquam est quis non occaecati libero earum.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(165, 'Sleek Cotton Bottle', 67669500, NULL, 'Similique aliquid id repellendus id ducimus recusandae quo.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(166, 'Lightweight Linen Bag', 79378500, NULL, 'Excepturi repudiandae facere nihil error.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 1),
+(167, 'Synergistic Leather Knife', 15212400, NULL, 'Architecto minima harum libero dolore assumenda accusamus est.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 3),
+(168, 'Rustic Marble Plate', 35706400, NULL, 'Voluptas illum reprehenderit blanditiis voluptatum dolor.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(169, 'Lightweight Plastic Plate', 64712200, NULL, 'Atque error saepe non est ipsa.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(170, 'Intelligent Iron Gloves', 5171040, NULL, 'Iure aut magni at consectetur quasi soluta.', '2024-07-14 15:48:07', '2024-07-14 15:48:07', 2),
+(171, 'Durable Wooden Chair', 5818940, NULL, 'Saepe minima sunt officia.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(172, 'Small Wooden Bench', 41370300, NULL, 'Et iusto amet.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(173, 'Intelligent Rubber Bag', 58951900, NULL, 'Ex esse facilis aperiam.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(174, 'Synergistic Rubber Computer', 44884000, NULL, 'Laudantium iusto eos maiores.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(175, 'Incredible Paper Plate', 9573860, NULL, 'Sed et expedita eum.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(176, 'Aerodynamic Linen Bottle', 81612600, NULL, 'Dolore ut dolor fugiat.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(177, 'Ergonomic Aluminum Gloves', 55237600, NULL, 'Accusamus rem aut veniam recusandae.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(178, 'Durable Wooden Table', 63575100, NULL, 'Et quasi officia unde ut porro est.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(179, 'Gorgeous Bronze Bag', 53432200, NULL, 'Iusto quidem aliquid aut quaerat at.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(180, 'Small Cotton Coat', 75818400, NULL, 'Laboriosam voluptates harum optio eaque voluptas minus voluptatem.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(181, 'Gorgeous Linen Watch', 5969320, NULL, 'Voluptatem sed et.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(182, 'Fantastic Marble Gloves', 48276600, NULL, 'Facilis ea velit minus rerum.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(183, 'Gorgeous Bronze Clock', 9258320, NULL, 'Et voluptatem inventore eaque enim optio.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(184, 'Intelligent Cotton Shirt', 12194300, NULL, 'Soluta dolor magni ea.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(185, 'Aerodynamic Steel Keyboard', 13324200, NULL, 'Nemo tempore eos ratione nulla dolor sint.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(186, 'Intelligent Paper Coat', 84913500, NULL, 'Beatae rerum quia aliquam pariatur distinctio amet ipsum.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(187, 'Lightweight Linen Table', 4605400, NULL, 'Et sit aut autem officiis quas.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(188, 'Small Iron Hat', 58859900, NULL, 'Deleniti omnis qui explicabo facilis.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(189, 'Heavy Duty Paper Computer', 76847800, NULL, 'Aut laboriosam nihil et.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(190, 'Intelligent Leather Table', 62052700, NULL, 'Culpa ipsam ab corrupti enim velit animi.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(191, 'Gorgeous Aluminum Computer', 83472200, NULL, 'Sed distinctio explicabo deserunt consequuntur corporis alias tenetur.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(192, 'Heavy Duty Paper Plate', 2942440, NULL, 'Aut vel natus nemo quidem error ut.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(193, 'Rustic Paper Plate', 50341200, NULL, 'Et velit ullam qui.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(194, 'Gorgeous Aluminum Wallet', 61750500, NULL, 'Aut repellat dolor.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(195, 'Ergonomic Bronze Shirt', 43647900, NULL, 'Quo libero unde.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(196, 'Ergonomic Aluminum Shirt', 85981500, NULL, 'Nemo est placeat.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(197, 'Mediocre Wooden Hat', 41664000, NULL, 'Soluta delectus et nisi optio odio et rem.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(198, 'Small Rubber Bottle', 14050000, NULL, 'Quis aperiam necessitatibus quis quia.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(199, 'Ergonomic Leather Shirt', 61096300, NULL, 'Quia porro facilis voluptas corrupti debitis id aut.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(200, 'Heavy Duty Cotton Keyboard', 18256700, NULL, 'Iste sapiente non sunt quia aut dolores perferendis.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(201, 'Mediocre Rubber Lamp', 5391090, NULL, 'In et et et dolorum voluptatem labore.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(202, 'Heavy Duty Granite Keyboard', 72714800, NULL, 'Non quia est perferendis.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(203, 'Incredible Cotton Plate', 74957100, NULL, 'Voluptatem aut in.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(204, 'Small Bronze Gloves', 70486100, NULL, 'Eum sed nam suscipit.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(205, 'Aerodynamic Iron Keyboard', 36678800, NULL, 'Quas explicabo accusamus aliquid.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(206, 'Aerodynamic Bronze Shoes', 47886700, NULL, 'Ducimus consequatur sit.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(207, 'Intelligent Leather Shoes', 71839700, NULL, 'Quis molestiae ab asperiores.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(208, 'Heavy Duty Wool Knife', 54988100, NULL, 'Ad distinctio inventore quo sed sunt unde.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(209, 'Ergonomic Cotton Coat', 34168100, NULL, 'Ducimus quo modi explicabo sit assumenda error.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(210, 'Ergonomic Bronze Clock', 32988600, NULL, 'Illum maxime possimus.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(211, 'Awesome Linen Wallet', 38672200, NULL, 'Repellendus et adipisci ut.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(212, 'Fantastic Silk Plate', 83216700, NULL, 'Adipisci quod dignissimos consequatur aut.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(213, 'Enormous Paper Shoes', 72295400, NULL, 'Non culpa non voluptas.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(214, 'Lightweight Paper Shirt', 21915900, NULL, 'Dolorum voluptatem et quia eveniet consectetur.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(215, 'Ergonomic Iron Pants', 45151000, NULL, 'Corporis dolor aperiam culpa fugit nam nihil.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(216, 'Lightweight Iron Watch', 71029000, NULL, 'Facilis sed aut recusandae.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(217, 'Heavy Duty Iron Shoes', 1614470, NULL, 'Provident ut consequuntur rerum itaque.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(218, 'Enormous Iron Wallet', 23694400, NULL, 'Eum voluptatem excepturi sed.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(219, 'Lightweight Aluminum Wallet', 25344800, NULL, 'Et odit inventore saepe voluptatem perspiciatis vel.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(220, 'Incredible Bronze Table', 81209900, NULL, 'Et distinctio dolorem distinctio nesciunt illo.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(221, 'Enormous Steel Pants', 31440900, NULL, 'Ex eius odit quo accusantium autem.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(222, 'Fantastic Plastic Watch', 33522400, NULL, 'Magni quo nihil voluptatem.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(223, 'Practical Silk Bag', 6222910, NULL, 'Ex sit enim omnis architecto libero et qui.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(224, 'Intelligent Leather Bench', 7994640, NULL, 'Sed similique optio.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(225, 'Rustic Silk Car', 62867500, NULL, 'Iste maiores rem cum.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(226, 'Intelligent Cotton Plate', 55635300, NULL, 'Voluptatem est sed blanditiis.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(227, 'Mediocre Aluminum Knife', 20693000, NULL, 'Explicabo consequuntur cum dolore sunt eveniet ut.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(228, 'Incredible Paper Watch', 43000100, NULL, 'Qui non odit minima.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(229, 'Incredible Leather Shirt', 55876600, NULL, 'Consectetur quasi dolor.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(230, 'Lightweight Aluminum Clock', 84967000, NULL, 'Fugiat deleniti at eligendi aut voluptates.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(231, 'Ergonomic Steel Hat', 21769500, NULL, 'A qui soluta neque corporis et.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(232, 'Incredible Copper Bench', 43055000, NULL, 'Est corrupti aut voluptatibus natus.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(233, 'Fantastic Marble Clock', 79001800, NULL, 'Deleniti ea minima eius aut.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(234, 'Intelligent Wool Chair', 29074900, NULL, 'Qui sapiente fuga cupiditate repellendus tempora officiis ea.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(235, 'Practical Iron Shirt', 5278270, NULL, 'Ullam in ea enim voluptatibus.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(236, 'Rustic Aluminum Bench', 54048500, NULL, 'Molestiae eius enim natus hic velit.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 3),
+(237, 'Practical Linen Car', 80541100, NULL, 'Doloremque rem velit assumenda pariatur iusto molestiae suscipit.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(238, 'Enormous Silk Chair', 47705400, NULL, 'Nihil non et dolorem sunt nihil.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(239, 'Incredible Steel Lamp', 41398200, NULL, 'Quis voluptatem neque voluptas tempora voluptates iusto.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(240, 'Aerodynamic Concrete Plate', 82702700, NULL, 'Illo sequi labore quia reprehenderit veritatis quis.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(241, 'Lightweight Marble Clock', 16518400, NULL, 'Autem repudiandae et sit dicta eaque quisquam omnis.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(242, 'Practical Paper Hat', 1630060, NULL, 'Mollitia architecto voluptas ipsa qui rerum consequatur.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(243, 'Durable Granite Bottle', 42222800, NULL, 'Doloremque deserunt voluptatum.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(244, 'Practical Bronze Gloves', 6019760, NULL, 'Id officiis beatae eaque autem deserunt dicta vel.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 2),
+(245, 'Fantastic Paper Table', 72659000, NULL, 'Praesentium illo ex quisquam.', '2024-07-14 15:48:08', '2024-07-14 15:48:08', 1),
+(246, 'Ergonomic Plastic Lamp', 61070700, NULL, 'Ducimus accusantium rerum ut tempore dolore voluptatem.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(247, 'Heavy Duty Aluminum Plate', 72631100, NULL, 'Et quo molestiae voluptatibus dolorem.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(248, 'Rustic Granite Bottle', 12137000, NULL, 'Ipsum ut eligendi impedit dignissimos sit perspiciatis et.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(249, 'Durable Linen Lamp', 71005800, NULL, 'Reiciendis eveniet incidunt.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(250, 'Enormous Plastic Coat', 81981800, NULL, 'Culpa facere repellat quaerat laboriosam sequi qui.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(251, 'Heavy Duty Wooden Bench', 30998200, NULL, 'Asperiores beatae alias in praesentium et omnis quos.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(252, 'Intelligent Leather Chair', 64886600, NULL, 'Impedit accusamus consequatur molestias explicabo.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(253, 'Small Aluminum Shoes', 77484600, NULL, 'Assumenda id voluptas officiis ducimus odit provident qui.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(254, 'Incredible Silk Shirt', 69807700, NULL, 'Repellat enim porro possimus totam molestias quam vel.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(255, 'Heavy Duty Cotton Hat', 69775900, NULL, 'A et quis incidunt quaerat aut error eos.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(256, 'Ergonomic Iron Hat', 50434000, NULL, 'Consequuntur corporis perspiciatis atque minus nemo.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(257, 'Fantastic Rubber Bench', 50994300, NULL, 'Placeat id omnis.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(258, 'Sleek Copper Computer', 67298200, NULL, 'Natus nesciunt quis.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(259, 'Durable Cotton Clock', 20081000, NULL, 'Mollitia est placeat.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(260, 'Small Concrete Knife', 4863350, NULL, 'Itaque voluptatem qui dolore.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(261, 'Small Silk Computer', 26904000, NULL, 'Sed voluptates sed.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(262, 'Small Wool Gloves', 10001200, NULL, 'Consectetur qui id suscipit adipisci consequuntur cum.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(263, 'Awesome Marble Lamp', 34837000, NULL, 'Distinctio debitis ipsa vero adipisci dolores quis aut.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(264, 'Awesome Paper Bag', 51350400, NULL, 'Dolores voluptas voluptates dolore perferendis.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(265, 'Lightweight Iron Shoes', 5195770, NULL, 'Officia excepturi nisi in ut quas laudantium.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(266, 'Small Cotton Clock', 11967000, NULL, 'Eveniet vero quasi ducimus.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(267, 'Practical Linen Chair', 81860700, NULL, 'Temporibus quia est aut qui saepe excepturi.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(268, 'Heavy Duty Marble Table', 76472000, NULL, 'Provident aspernatur nostrum aut laborum perspiciatis quo omnis.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(269, 'Durable Aluminum Watch', 71863800, NULL, 'Blanditiis ratione doloremque aut et eius repudiandae iusto.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(270, 'Synergistic Plastic Hat', 24311700, NULL, 'Voluptatem et non quia excepturi sit.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(271, 'Practical Rubber Keyboard', 68070300, NULL, 'Consequatur quia sed consequatur eaque quod ducimus.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(272, 'Incredible Leather Clock', 41355200, NULL, 'Sed omnis repellendus modi qui ipsam consequatur.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(273, 'Fantastic Copper Clock', 37941500, NULL, 'Labore facilis ex et.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(274, 'Sleek Rubber Lamp', 55427000, NULL, 'Non non illum doloribus dolor soluta aliquam.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(275, 'Mediocre Paper Car', 10694300, NULL, 'Modi vel quod fugiat quod delectus aspernatur.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(276, 'Ergonomic Rubber Plate', 51333000, NULL, 'Et provident ab sunt iusto.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(277, 'Gorgeous Copper Chair', 22613200, NULL, 'Quia suscipit rerum.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(278, 'Intelligent Wooden Chair', 78196000, NULL, 'Eaque reprehenderit a quia placeat.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(279, 'Rustic Concrete Clock', 75228600, NULL, 'Error deserunt quos.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(280, 'Rustic Leather Car', 76253000, NULL, 'Ullam minus at ut quos voluptates et.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(281, 'Intelligent Leather Clock', 11139400, NULL, 'Culpa quia quam omnis non.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(282, 'Intelligent Leather Lamp', 21679200, NULL, 'Illum earum omnis asperiores ipsa ipsa ducimus.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(283, 'Fantastic Aluminum Table', 13142200, NULL, 'Magni quos voluptatem libero tempore minima deleniti officiis.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(284, 'Fantastic Plastic Car', 85808000, NULL, 'Sit nihil repellendus qui est occaecati.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(285, 'Practical Iron Bottle', 40426300, NULL, 'Dignissimos esse quae sed eum hic quibusdam.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(286, 'Mediocre Wooden Pants', 13719500, NULL, 'Omnis odio nostrum exercitationem earum fuga non.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(287, 'Mediocre Aluminum Keyboard', 79894200, NULL, 'Aut et animi nemo.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(288, 'Lightweight Wool Car', 45200300, NULL, 'Cum dolor maiores harum illum minima fuga tenetur.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(289, 'Incredible Wooden Gloves', 33152900, NULL, 'Sapiente odit sapiente modi ex quaerat voluptatum sed.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(290, 'Sleek Paper Table', 85810600, NULL, 'Omnis suscipit autem aliquam.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(291, 'Intelligent Cotton Gloves', 74551600, NULL, 'Numquam quam recusandae modi est.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(292, 'Enormous Leather Keyboard', 18101700, NULL, 'Natus reiciendis et recusandae praesentium voluptatem veniam laudantium.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(293, 'Synergistic Linen Bench', 88924400, NULL, 'Aut excepturi qui culpa.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(294, 'Lightweight Steel Wallet', 69410800, NULL, 'Nihil voluptas ratione non quisquam deleniti ea itaque.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(295, 'Intelligent Plastic Lamp', 16482400, NULL, 'Aut magnam sint.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(296, 'Synergistic Aluminum Pants', 7850780, NULL, 'Ex sint autem assumenda maiores ipsam.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(297, 'Intelligent Silk Knife', 85153600, NULL, 'Maxime consequatur reprehenderit quos.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(298, 'Small Granite Shirt', 57313000, NULL, 'Sint ut minima enim voluptatem dicta velit libero.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(299, 'Lightweight Paper Plate', 24370100, NULL, 'Id amet iste ratione voluptas.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(300, 'Incredible Marble Pants', 54011500, NULL, 'Quam eos voluptas ea.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(301, 'Mediocre Concrete Coat', 49024800, NULL, 'Voluptas officia ut animi maiores unde sit quaerat.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(302, 'Incredible Cotton Gloves', 51719200, NULL, 'Repellendus itaque doloribus impedit reiciendis eius dolor maxime.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(303, 'Gorgeous Plastic Hat', 69288400, NULL, 'Voluptatum beatae odit ut voluptatibus.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(304, 'Rustic Copper Knife', 62578100, NULL, 'Sunt provident autem consectetur.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(305, 'Heavy Duty Aluminum Coat', 43823600, NULL, 'Sed quis voluptatibus.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(306, 'Practical Copper Table', 29448600, NULL, 'Non vel eveniet consequatur doloremque corporis.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(307, 'Durable Marble Watch', 26980800, NULL, 'Animi enim odit deserunt dolor.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(308, 'Mediocre Paper Table', 62012300, NULL, 'Minima dolor sapiente aut.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(309, 'Small Steel Wallet', 25485800, NULL, 'Quisquam quos rerum.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 2),
+(310, 'Fantastic Steel Knife', 87585300, NULL, 'Non sit cumque.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 1),
+(311, 'Lightweight Leather Knife', 12437900, NULL, 'Earum harum autem.', '2024-07-14 15:48:09', '2024-07-14 15:48:09', 3),
+(312, 'Enormous Linen Shoes', 48414000, NULL, 'Eveniet sit optio ullam.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(313, 'Rustic Granite Table', 84723000, NULL, 'Harum aperiam molestias debitis modi pariatur dicta et.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(314, 'Mediocre Concrete Bag', 75302400, NULL, 'Aut rerum quaerat impedit sed omnis id maiores.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(315, 'Incredible Rubber Keyboard', 8704830, NULL, 'Id minus in libero earum ipsum.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(316, 'Heavy Duty Aluminum Gloves', 227001, NULL, 'Enim sit excepturi soluta voluptate.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(317, 'Intelligent Granite Plate', 18539000, NULL, 'Minima dolorum dignissimos distinctio.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(318, 'Ergonomic Rubber Watch', 56194800, NULL, 'Delectus expedita sunt ea ex dolore qui.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(319, 'Small Paper Bag', 82570200, NULL, 'Nam praesentium sint id mollitia.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(320, 'Fantastic Wooden Shoes', 1131630, NULL, 'Architecto omnis ut nisi est omnis dolorum.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(321, 'Practical Wool Bag', 25653300, NULL, 'Ipsa eius sit amet numquam aut.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(322, 'Lightweight Copper Plate', 33151400, NULL, 'Ut voluptas repellendus tempora.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(323, 'Small Wool Table', 4452210, NULL, 'Quia perferendis esse eligendi ut ea aut minima.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(324, 'Fantastic Paper Computer', 78229200, NULL, 'Voluptatem doloribus consequatur commodi.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(325, 'Sleek Silk Bench', 35125600, NULL, 'Quibusdam veritatis et ut fugit est.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(326, 'Lightweight Iron Bench', 81429000, NULL, 'Asperiores velit dolores assumenda laborum ad.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(327, 'Rustic Linen Bottle', 57736500, NULL, 'Incidunt ullam suscipit et et error error quibusdam.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(328, 'Mediocre Marble Bottle', 3323160, NULL, 'Saepe saepe debitis omnis aliquid doloremque.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(329, 'Small Plastic Computer', 767, NULL, 'Nihil placeat sint voluptatem earum.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(330, 'Ergonomic Granite Chair', 42344700, NULL, 'Voluptate amet vel cum.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(331, 'Durable Silk Knife', 23875800, NULL, 'Aperiam in ducimus quia dolorem.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(332, 'Fantastic Cotton Plate', 70803400, NULL, 'Aut ex sit fugiat.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(333, 'Sleek Marble Lamp', 35174200, NULL, 'Occaecati libero blanditiis sunt deserunt ut voluptas.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(334, 'Rustic Rubber Gloves', 6010550, NULL, 'Cumque et vitae repellendus.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(335, 'Sleek Wool Lamp', 73436900, NULL, 'Dicta suscipit velit accusamus architecto occaecati blanditiis fugiat.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(336, 'Synergistic Wool Bench', 75208000, NULL, 'Harum ad ducimus id.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(337, 'Heavy Duty Cotton Coat', 68539400, NULL, 'Amet excepturi voluptas a iusto eius dolorum.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(338, 'Small Aluminum Bench', 65031400, NULL, 'Tempore dolores eos et sit perspiciatis a.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(339, 'Practical Silk Clock', 30846900, NULL, 'Velit quia quia minus aliquid laboriosam minima accusamus.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(340, 'Rustic Cotton Shirt', 74219600, NULL, 'Cum voluptas eum sint quod quidem suscipit rem.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(341, 'Synergistic Copper Knife', 19809400, NULL, 'Fugiat aspernatur cum et nemo.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(342, 'Enormous Linen Clock', 4796480, NULL, 'Enim perspiciatis est.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(343, 'Sleek Aluminum Gloves', 88312500, NULL, 'Et minus sapiente expedita numquam excepturi.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(344, 'Lightweight Linen Bench', 39493400, NULL, 'Delectus beatae et nam repellendus quam maxime.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(345, 'Heavy Duty Wooden Table', 2716390, NULL, 'Occaecati est quos quis fuga nobis voluptatem minus.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(346, 'Fantastic Iron Clock', 29287900, NULL, 'Quas est rerum modi maxime tenetur delectus.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(347, 'Mediocre Linen Shirt', 56169500, NULL, 'Consequatur ea qui similique.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(348, 'Ergonomic Wooden Watch', 47904500, NULL, 'Ipsum non nemo assumenda.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(349, 'Gorgeous Aluminum Plate', 35918400, NULL, 'Est suscipit qui qui.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(350, 'Small Rubber Table', 56522400, NULL, 'Dolore eius et nesciunt velit incidunt ut.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(351, 'Rustic Leather Hat', 56990900, NULL, 'Corrupti quidem hic molestiae asperiores.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(352, 'Sleek Cotton Hat', 9495920, NULL, 'Ullam laborum quam dolor eveniet et.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(353, 'Sleek Granite Hat', 72077000, NULL, 'Iure qui voluptatem sed non omnis.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(354, 'Ergonomic Granite Watch', 36276600, NULL, 'Molestias ipsum sapiente.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(355, 'Gorgeous Steel Lamp', 3282750, NULL, 'Ad enim voluptatem.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(356, 'Enormous Rubber Wallet', 87415400, NULL, 'Amet voluptas aut doloremque.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(357, 'Enormous Aluminum Shoes', 31430000, NULL, 'Quia dicta quaerat tenetur nihil aspernatur.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(358, 'Aerodynamic Silk Table', 68619500, NULL, 'Voluptate culpa perferendis.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(359, 'Lightweight Granite Shoes', 67890900, NULL, 'Pariatur omnis magni sed nisi eos deserunt saepe.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(360, 'Rustic Wooden Bench', 46413800, NULL, 'Nemo corporis quia.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(361, 'Lightweight Wool Wallet', 28406600, NULL, 'Quia ut sunt est.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(362, 'Ergonomic Copper Keyboard', 35409500, NULL, 'Architecto tempora magnam praesentium qui est.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(363, 'Aerodynamic Steel Bench', 34195400, NULL, 'Dignissimos nulla et non error in.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(364, 'Enormous Wool Computer', 53029400, NULL, 'Tempora quam recusandae.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(365, 'Rustic Paper Shirt', 24834900, NULL, 'Quia quo saepe debitis minima et omnis adipisci.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(366, 'Incredible Leather Plate', 53619100, NULL, 'Minus velit aut deserunt qui.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(367, 'Intelligent Silk Computer', 87953300, NULL, 'Ullam quidem eos perspiciatis et eligendi.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(368, 'Durable Paper Computer', 30878500, NULL, 'Cupiditate odit occaecati tempore porro molestiae placeat beatae.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(369, 'Aerodynamic Silk Chair', 32554800, NULL, 'Rerum mollitia illum aut.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(370, 'Enormous Granite Hat', 13179600, NULL, 'Velit libero est.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(371, 'Synergistic Iron Bottle', 15514100, NULL, 'Molestiae ratione qui optio est.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(372, 'Heavy Duty Cotton Bag', 11334200, NULL, 'Veritatis et nihil qui incidunt explicabo rerum.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(373, 'Gorgeous Marble Pants', 30536600, NULL, 'Quia et eum consequuntur fugit eos sed magni.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(374, 'Synergistic Iron Clock', 43188600, NULL, 'Quis est sed vitae et voluptatem ut ut.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(375, 'Gorgeous Wooden Wallet', 72800100, NULL, 'Non error modi tempora.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(376, 'Mediocre Bronze Chair', 76850500, NULL, 'Ipsa reiciendis est minima id.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(377, 'Ergonomic Wool Shirt', 29408300, NULL, 'Vel qui ab voluptates aut dolor dolore quos.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(378, 'Lightweight Wool Table', 13386700, NULL, 'Qui at iure nostrum veritatis ut omnis aut.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(379, 'Mediocre Concrete Shirt', 22566600, NULL, 'Et corporis aut nam rem ea id.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(380, 'Heavy Duty Wooden Watch', 35648800, NULL, 'Error eos maiores nobis.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(381, 'Heavy Duty Wooden Clock', 47096600, NULL, 'Quia laborum molestiae soluta dicta voluptas qui.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(382, 'Enormous Plastic Gloves', 87955500, NULL, 'Laborum laudantium recusandae delectus laudantium qui.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(383, 'Aerodynamic Iron Shirt', 14664900, NULL, 'Deserunt voluptatem delectus est eveniet aut.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(384, 'Heavy Duty Plastic Lamp', 86342600, NULL, 'Beatae qui sint quo fugiat ex sunt.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(385, 'Awesome Bronze Bench', 85696600, NULL, 'Incidunt vel officiis.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(386, 'Aerodynamic Wooden Shirt', 38446800, NULL, 'Delectus ipsa quasi officiis.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(387, 'Practical Silk Coat', 33564400, NULL, 'Qui consequuntur necessitatibus alias aut assumenda enim quia.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(388, 'Intelligent Marble Lamp', 61019000, NULL, 'Non laborum qui dolor.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 3),
+(389, 'Awesome Wooden Watch', 74183000, NULL, 'In voluptatem qui expedita occaecati consequuntur.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 1),
+(390, 'Gorgeous Leather Knife', 24703200, NULL, 'Qui omnis alias sapiente nam accusantium animi omnis.', '2024-07-14 15:48:10', '2024-07-14 15:48:10', 2),
+(391, 'Mediocre Copper Gloves', 12064500, NULL, 'Blanditiis dignissimos neque.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(392, 'Gorgeous Wool Coat', 82178500, NULL, 'Quia corrupti sint vitae sunt fugit.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(393, 'Fantastic Steel Shirt', 3387200, NULL, 'Inventore eligendi ipsam minima dolorem tenetur consequatur in.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(394, 'Enormous Concrete Chair', 14883600, NULL, 'Exercitationem quis odio inventore illum iste.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(395, 'Synergistic Paper Wallet', 16265400, NULL, 'Aut sunt adipisci iste ut.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(396, 'Durable Copper Pants', 23894100, NULL, 'Et et iure quae cum recusandae ut repudiandae.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(397, 'Durable Silk Wallet', 19506300, NULL, 'Quis maiores ab vel perspiciatis temporibus voluptatibus.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(398, 'Rustic Leather Clock', 25336700, NULL, 'Odio magni quod.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(399, 'Mediocre Cotton Wallet', 39841100, NULL, 'Non rerum expedita nobis.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(400, 'Incredible Copper Shoes', 1583910, NULL, 'Autem impedit similique cumque odio accusamus.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(401, 'Mediocre Bronze Watch', 83200600, NULL, 'Voluptate qui non atque qui aut a qui.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(402, 'Durable Paper Pants', 37885800, NULL, 'Fugiat iste ducimus nisi rerum harum numquam provident.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(403, 'Intelligent Plastic Hat', 31777500, NULL, 'Minima soluta et qui necessitatibus nisi velit consequatur.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(404, 'Aerodynamic Copper Gloves', 1435780, NULL, 'Minima necessitatibus libero quos aut cumque aut porro.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(405, 'Heavy Duty Steel Bench', 79460400, NULL, 'Quaerat autem aut.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(406, 'Mediocre Granite Bag', 56557200, NULL, 'Omnis non dicta omnis dicta est reiciendis perferendis.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(407, 'Heavy Duty Concrete Clock', 89982700, NULL, 'Eum harum corrupti.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(408, 'Fantastic Silk Watch', 26838600, NULL, 'Dolores mollitia voluptas quia optio molestias.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(409, 'Small Plastic Shoes', 67082400, NULL, 'Sunt consequuntur aspernatur.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(410, 'Practical Wooden Computer', 44332900, NULL, 'Repellendus non ipsum minus aperiam nihil similique.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(411, 'Lightweight Concrete Gloves', 88771500, NULL, 'Dolorum tenetur reiciendis qui blanditiis accusamus odit natus.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(412, 'Aerodynamic Paper Bench', 15906600, NULL, 'Voluptatum enim et eius est et.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(413, 'Rustic Leather Shirt', 50255000, NULL, 'Dolorem vero quo.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(414, 'Practical Wooden Lamp', 59679500, NULL, 'Dolores dicta adipisci aut fugiat in maxime.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(415, 'Intelligent Rubber Wallet', 26826000, NULL, 'Ducimus aspernatur cupiditate.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(416, 'Fantastic Leather Bag', 41022600, NULL, 'Natus debitis cum omnis distinctio.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(417, 'Heavy Duty Bronze Shoes', 35534900, NULL, 'Doloribus vero eos consectetur pariatur animi commodi.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(418, 'Intelligent Leather Watch', 15226700, NULL, 'Laudantium saepe cum id veniam dolorem voluptate.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(419, 'Aerodynamic Paper Keyboard', 11273700, NULL, 'Amet sit molestiae laboriosam consequatur temporibus et amet.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(420, 'Gorgeous Granite Watch', 84780400, NULL, 'Accusamus totam suscipit.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(421, 'Incredible Leather Knife', 37930600, NULL, 'Amet libero ut vero.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(422, 'Incredible Wooden Watch', 30184500, NULL, 'Non dolores voluptatibus maiores iure sit in soluta.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(423, 'Mediocre Leather Wallet', 10512400, NULL, 'Natus officia debitis nihil aut eius commodi magni.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(424, 'Incredible Bronze Lamp', 84227000, NULL, 'Voluptas velit et beatae adipisci voluptatum.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(425, 'Synergistic Concrete Gloves', 68811000, NULL, 'Quod quam inventore sit.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(426, 'Incredible Iron Shirt', 88589600, NULL, 'Vel rem vitae dolore eligendi eos consectetur sit.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(427, 'Lightweight Concrete Lamp', 48002400, NULL, 'Veniam deleniti est dolorem.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(428, 'Intelligent Copper Watch', 75679600, NULL, 'Quaerat ullam assumenda quod voluptatum nihil.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(429, 'Incredible Concrete Computer', 87098500, NULL, 'Consequatur omnis et sed doloremque voluptatem maiores.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(430, 'Fantastic Bronze Table', 31145500, NULL, 'Recusandae et voluptas nihil sunt porro.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(431, 'Awesome Cotton Knife', 84894700, NULL, 'Totam qui et ut dolores sequi nisi pariatur.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(432, 'Sleek Linen Chair', 610725, NULL, 'Deleniti quaerat corporis.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(433, 'Aerodynamic Linen Plate', 21132100, NULL, 'Est sed in architecto consequatur et quis.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(434, 'Aerodynamic Granite Knife', 7377640, NULL, 'Tempora voluptas fuga dolor ut.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(435, 'Sleek Copper Coat', 45102400, NULL, 'Beatae qui qui cum.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(436, 'Gorgeous Granite Table', 68359000, NULL, 'Molestiae quo unde minus quaerat aspernatur quaerat voluptas.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(437, 'Sleek Wool Coat', 50526400, NULL, 'Atque voluptates reiciendis repellendus.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(438, 'Gorgeous Bronze Knife', 82454000, NULL, 'Suscipit sapiente sunt iste est facere eos sed.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(439, 'Incredible Silk Computer', 10753800, NULL, 'Odit fugiat fuga beatae.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(440, 'Intelligent Rubber Pants', 47483500, NULL, 'Et quos magnam quas quo.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(441, 'Fantastic Copper Chair', 59589200, NULL, 'Aut modi dignissimos.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(442, 'Enormous Wooden Hat', 52549500, NULL, 'Sit possimus quam aut quo placeat vitae.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(443, 'Heavy Duty Marble Computer', 42243500, NULL, 'Quia recusandae commodi ducimus porro.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(444, 'Rustic Rubber Bottle', 40063000, NULL, 'In voluptates neque autem sint ut.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(445, 'Lightweight Marble Coat', 73527200, NULL, 'Qui a aliquid.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(446, 'Sleek Leather Computer', 39004000, NULL, 'Accusantium qui neque.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(447, 'Lightweight Cotton Wallet', 6182940, NULL, 'Fugiat ratione ab doloremque est eaque.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(448, 'Synergistic Copper Bench', 65433700, NULL, 'A vitae qui et nihil nulla veritatis.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(449, 'Sleek Plastic Gloves', 71972000, NULL, 'Rem voluptatem aut velit in unde repellat et.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(450, 'Enormous Wool Chair', 56257300, NULL, 'Et quis harum harum ea.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(451, 'Mediocre Concrete Lamp', 88423500, NULL, 'Aut ea rerum iste sunt dignissimos.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(452, 'Lightweight Silk Wallet', 65806900, NULL, 'Et autem veniam porro illo.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(453, 'Ergonomic Leather Bench', 40896200, NULL, 'Cum ea aut non.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(454, 'Aerodynamic Bronze Bottle', 68964900, NULL, 'Eligendi architecto tenetur.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(455, 'Heavy Duty Aluminum Keyboard', 70787300, NULL, 'Culpa molestiae ut beatae nam recusandae ut.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(456, 'Durable Aluminum Wallet', 12074100, NULL, 'Dolorem est ut praesentium minima fugiat laborum earum.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(457, 'Synergistic Paper Lamp', 11271000, NULL, 'Quo culpa qui et inventore impedit corrupti quia.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(458, 'Gorgeous Paper Car', 73244200, NULL, 'Ut hic soluta aut quibusdam qui ad sed.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(459, 'Rustic Steel Coat', 48591300, NULL, 'Rerum quae ex sit voluptas atque.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(460, 'Rustic Concrete Shirt', 64997200, NULL, 'Nihil enim ab saepe cumque assumenda.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(461, 'Mediocre Iron Knife', 4992940, NULL, 'Repudiandae distinctio est sit.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(462, 'Heavy Duty Paper Hat', 7910880, NULL, 'Alias perferendis et quidem quisquam dolores.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(463, 'Enormous Leather Chair', 84568000, NULL, 'Ullam quidem earum architecto.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(464, 'Small Marble Clock', 88312500, NULL, 'Id perspiciatis tempore corrupti numquam quod assumenda optio.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(465, 'Enormous Steel Coat', 21312800, NULL, 'Laboriosam id quia soluta.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(466, 'Synergistic Linen Knife', 20129900, NULL, 'Molestias voluptas commodi aut nesciunt sequi enim.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(467, 'Sleek Concrete Table', 69133800, NULL, 'Voluptas asperiores tempore voluptas.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(468, 'Enormous Plastic Computer', 27393100, NULL, 'Cupiditate repudiandae non error ipsam.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(469, 'Small Cotton Computer', 73397000, NULL, 'Iusto ad minus.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(470, 'Intelligent Steel Hat', 13173900, NULL, 'Aliquid nobis quas corrupti illo quos aut doloremque.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(471, 'Awesome Plastic Computer', 75348700, NULL, 'Voluptatem aut iusto pariatur esse nam.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(472, 'Awesome Paper Bottle', 88657800, NULL, 'Provident vel delectus reprehenderit ipsam quas.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(473, 'Sleek Wooden Chair', 50123900, NULL, 'Totam consectetur alias sed commodi labore.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(474, 'Aerodynamic Cotton Bottle', 38348000, NULL, 'Quasi rerum et.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(475, 'Intelligent Silk Car', 45342800, NULL, 'Quisquam cum quo in.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(476, 'Practical Bronze Plate', 63686800, NULL, 'Sit nisi veniam.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(477, 'Awesome Aluminum Knife', 13603800, NULL, 'Tenetur corrupti laboriosam rerum.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(478, 'Ergonomic Wooden Coat', 79299600, NULL, 'Reiciendis rerum ab suscipit sed aut.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(479, 'Intelligent Silk Hat', 85463700, NULL, 'Ullam quo voluptatem est fugit quis tempora aut.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(480, 'Small Copper Shoes', 44308000, NULL, 'Quas doloremque sed fugit sapiente perferendis modi quae.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(481, 'Intelligent Leather Computer', 17619800, NULL, 'Quia eos ratione hic et.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(482, 'Intelligent Marble Plate', 29014100, NULL, 'Vel sunt quia nihil dolorum.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 3),
+(483, 'Sleek Linen Bag', 40164600, NULL, 'Labore deleniti rerum ad.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(484, 'Mediocre Marble Plate', 86929600, NULL, 'Nam ut molestias aliquid sint sit atque.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 2),
+(485, 'Small Marble Plate', 75984300, NULL, 'Qui qui autem aut nostrum exercitationem.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(486, 'Mediocre Concrete Table', 20323700, NULL, 'Deleniti quae quia qui.', '2024-07-14 15:48:11', '2024-07-14 15:48:11', 1),
+(487, 'Heavy Duty Copper Wallet', 73212700, NULL, 'Reiciendis minima aut est et voluptate tempore quos.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(488, 'Enormous Iron Bench', 20185500, NULL, 'Aliquid dignissimos impedit in.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(489, 'Small Bronze Pants', 54793700, NULL, 'Totam nihil magni molestiae asperiores.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(490, 'Aerodynamic Concrete Bottle', 54844800, NULL, 'Voluptate corporis dolorum itaque ullam quia.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(491, 'Practical Copper Keyboard', 817114, NULL, 'Omnis amet animi.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(492, 'Gorgeous Iron Pants', 3731590, NULL, 'Aut laborum nam.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(493, 'Incredible Silk Chair', 72068100, NULL, 'Repellat tempore reprehenderit et quisquam ullam exercitationem porro.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(494, 'Heavy Duty Steel Bottle', 53671600, NULL, 'Est architecto aliquam officiis totam.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(495, 'Awesome Bronze Chair', 42947700, NULL, 'Eos occaecati et vitae.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(496, 'Rustic Silk Hat', 3426770, NULL, 'Ut eius corrupti et nostrum.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(497, 'Durable Steel Pants', 7377450, NULL, 'Eius dolorum aut eveniet et facilis.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(498, 'Awesome Iron Watch', 78595900, NULL, 'Atque voluptatem explicabo.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(499, 'Intelligent Silk Table', 63645600, NULL, 'Atque incidunt et officiis et voluptatem animi hic.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(500, 'Fantastic Leather Coat', 2243340, NULL, 'Commodi quas eos atque nulla magnam voluptas.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(501, 'Awesome Leather Car', 64622600, NULL, 'Expedita qui accusamus culpa sit repellendus.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(502, 'Durable Cotton Coat', 7404460, NULL, 'Eligendi reprehenderit id nihil soluta velit doloremque.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(503, 'Gorgeous Bronze Chair', 43160400, NULL, 'Adipisci reprehenderit et eveniet dolores unde.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(504, 'Synergistic Wooden Gloves', 54791500, NULL, 'Error ut rerum perferendis nisi.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(505, 'Ergonomic Marble Computer', 42754700, NULL, 'Velit atque recusandae aut rerum inventore et amet.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(506, 'Incredible Concrete Clock', 25445700, NULL, 'Enim cum saepe totam dolorum similique.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(507, 'Ergonomic Copper Knife', 88778100, NULL, 'Et fuga dolor eum voluptatem neque corrupti.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(508, 'Awesome Concrete Gloves', 19032400, NULL, 'Temporibus quasi doloremque iusto.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(509, 'Lightweight Rubber Wallet', 3411170, NULL, 'Cumque ea vel.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(510, 'Awesome Granite Bottle', 70317400, NULL, 'Commodi quia similique accusamus porro.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(511, 'Enormous Aluminum Coat', 28426200, NULL, 'Repellat ratione doloremque maxime provident.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(512, 'Durable Bronze Knife', 69507500, NULL, 'Deleniti quae expedita aliquid quia quibusdam.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(513, 'Lightweight Concrete Chair', 59288600, NULL, 'Sit quae eum debitis et possimus.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(514, 'Durable Cotton Table', 17296800, NULL, 'Natus a ut sit provident.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(515, 'Durable Concrete Watch', 35265200, NULL, 'Iusto magni sed.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(516, 'Sleek Steel Computer', 85715400, NULL, 'Est alias nesciunt reiciendis animi est et.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(517, 'Awesome Iron Table', 88366900, NULL, 'Minus ipsa optio mollitia molestias tempore.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(518, 'Durable Steel Bag', 79431900, NULL, 'Quia voluptates maxime nihil labore consectetur aspernatur itaque.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(519, 'Rustic Aluminum Coat', 62292500, NULL, 'Expedita iusto non temporibus.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(520, 'Lightweight Copper Lamp', 72991800, NULL, 'Vero ad repellat hic doloremque eveniet aut.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(521, 'Small Granite Bench', 17114500, NULL, 'Rerum alias iusto.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(522, 'Practical Iron Computer', 63933400, NULL, 'Qui soluta magnam error eos numquam iste.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(523, 'Durable Wooden Computer', 58635300, NULL, 'Quia ullam atque omnis est pariatur nulla quisquam.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(524, 'Aerodynamic Plastic Plate', 75435700, NULL, 'Iure quas voluptas aliquam.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(525, 'Durable Leather Pants', 4482610, NULL, 'Vel laboriosam quia iusto possimus et.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(526, 'Synergistic Bronze Pants', 58402600, NULL, 'Sequi et deserunt velit dolorem rerum ea.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(527, 'Aerodynamic Leather Lamp', 64005100, NULL, 'Corrupti est reprehenderit optio.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(528, 'Gorgeous Linen Coat', 68852500, NULL, 'Facilis qui est voluptate quibusdam dolore unde.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(529, 'Incredible Steel Chair', 24158700, NULL, 'Itaque provident hic.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(530, 'Synergistic Paper Bench', 51759400, NULL, 'Ad nostrum vitae blanditiis nihil.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(531, 'Ergonomic Granite Gloves', 52604800, NULL, 'Perferendis nulla corrupti necessitatibus officia nulla incidunt.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(532, 'Intelligent Leather Coat', 64921300, NULL, 'Suscipit ea illum.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(533, 'Ergonomic Bronze Car', 85027800, NULL, 'Ut et aut laboriosam iste ex numquam reprehenderit.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(534, 'Intelligent Bronze Bottle', 47677200, NULL, 'In neque blanditiis ex.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(535, 'Durable Silk Shirt', 49090000, NULL, 'Repellendus quaerat facilis ab quod ut eius.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(536, 'Synergistic Plastic Car', 29898000, NULL, 'Quis facere sit asperiores quis.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(537, 'Fantastic Iron Car', 69543600, NULL, 'Dolor aut non iure ea tenetur.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(538, 'Rustic Wool Computer', 53000600, NULL, 'In nemo totam voluptate enim quo maiores rem.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(539, 'Sleek Bronze Gloves', 53595300, NULL, 'Temporibus rerum eos dolorem ad sint.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(540, 'Ergonomic Cotton Hat', 46153300, NULL, 'Quisquam nihil nemo dolores.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(541, 'Practical Plastic Computer', 86059400, NULL, 'Beatae nulla accusamus.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(542, 'Gorgeous Granite Knife', 17065400, NULL, 'Voluptatem ipsum ea voluptas.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(543, 'Awesome Silk Computer', 83272500, NULL, 'Dolorum iure et deserunt qui.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(544, 'Synergistic Marble Plate', 72547400, NULL, 'Debitis harum alias explicabo dolor rerum velit dolorem.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(545, 'Practical Iron Watch', 24248700, NULL, 'Iste voluptas illo ut assumenda.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(546, 'Awesome Copper Chair', 53209000, NULL, 'Earum placeat doloribus earum nobis ut voluptatibus.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(547, 'Small Wooden Shoes', 7163840, NULL, 'Officia rem asperiores ut voluptatem quis voluptatem.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(548, 'Fantastic Leather Pants', 89730200, NULL, 'Sit dolor hic perferendis architecto.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(549, 'Ergonomic Paper Lamp', 9260480, NULL, 'Ut assumenda blanditiis deleniti voluptas quis corrupti nesciunt.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(550, 'Enormous Granite Car', 58068700, NULL, 'Ullam aut molestiae.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(551, 'Awesome Wool Computer', 8063100, NULL, 'Vel ipsa totam dignissimos nihil sed.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(552, 'Mediocre Wool Gloves', 74447700, NULL, 'Quia rem iste beatae debitis aut.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(553, 'Practical Copper Computer', 66466600, NULL, 'Ipsum est quo similique ipsum minus.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(554, 'Incredible Silk Wallet', 8878870, NULL, 'Fugiat ut natus blanditiis aperiam.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(555, 'Incredible Paper Keyboard', 48541000, NULL, 'Unde accusantium nostrum.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 3),
+(556, 'Sleek Cotton Lamp', 56695800, NULL, 'Autem totam adipisci dicta quod.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(557, 'Mediocre Marble Shoes', 72822300, NULL, 'Ipsum maxime sunt earum sed.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 2),
+(558, 'Aerodynamic Steel Pants', 6235010, NULL, 'Fugit perferendis ut quo distinctio occaecati veniam ea.', '2024-07-14 15:48:12', '2024-07-14 15:48:12', 1),
+(559, 'Enormous Paper Chair', 77811100, NULL, 'Alias at voluptatibus culpa autem.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(560, 'Incredible Wool Plate', 76924100, NULL, 'Eos ad quibusdam cumque velit voluptas error est.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(561, 'Small Wool Pants', 30849100, NULL, 'Qui qui culpa eaque rem.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(562, 'Practical Concrete Knife', 9581040, NULL, 'Illo ad animi aut facilis recusandae et.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(563, 'Rustic Steel Bottle', 1451750, NULL, 'Omnis quasi eos quod.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(564, 'Synergistic Silk Car', 32633400, NULL, 'Id autem et officia.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(565, 'Intelligent Cotton Car', 13837800, NULL, 'Rem ipsa vero unde eum laboriosam.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(566, 'Aerodynamic Iron Computer', 11378300, NULL, 'Error consequatur ratione rem voluptatem pariatur.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(567, 'Synergistic Cotton Plate', 27033000, NULL, 'Ut eius suscipit aut.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(568, 'Mediocre Silk Wallet', 52288100, NULL, 'Explicabo qui ut reiciendis quos inventore.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(569, 'Sleek Silk Chair', 36789100, NULL, 'Beatae repellat consequatur.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(570, 'Heavy Duty Steel Coat', 49970400, NULL, 'Fugiat quae ex ut dolorum.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(571, 'Ergonomic Rubber Lamp', 21012500, NULL, 'Doloremque distinctio numquam.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(572, 'Enormous Granite Shoes', 74551000, NULL, 'Perferendis in earum perferendis quae sunt.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(573, 'Gorgeous Paper Hat', 25561100, NULL, 'Voluptatem omnis nesciunt ut impedit dolorem.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(574, 'Durable Concrete Hat', 69836700, NULL, 'Id consequatur et blanditiis enim.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(575, 'Awesome Plastic Watch', 19399100, NULL, 'Enim et enim necessitatibus ipsum voluptates.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(576, 'Ergonomic Cotton Bag', 35619500, NULL, 'Quis blanditiis voluptates illo.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(577, 'Fantastic Copper Wallet', 55429300, NULL, 'Neque et ea.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(578, 'Awesome Copper Pants', 26016800, NULL, 'Itaque eligendi nihil ipsum.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(579, 'Small Granite Hat', 36375500, NULL, 'Est quod dolorum aliquam repellendus assumenda velit.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(580, 'Durable Plastic Coat', 72544100, NULL, 'Quod pariatur nisi sit laboriosam sint dolorum.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(581, 'Lightweight Bronze Clock', 2544700, NULL, 'Qui non soluta voluptate ipsum illum ducimus.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(582, 'Rustic Iron Keyboard', 11054600, NULL, 'Eos qui optio ea qui animi molestiae deleniti.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(583, 'Rustic Granite Bag', 403778, NULL, 'Suscipit et nobis et qui.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(584, 'Mediocre Aluminum Pants', 14803100, NULL, 'Incidunt reprehenderit et aut tempore quod voluptas eius.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(585, 'Practical Copper Bottle', 89641200, NULL, 'Possimus cum aut.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(586, 'Heavy Duty Silk Keyboard', 79483500, NULL, 'Corporis voluptatibus et.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(587, 'Mediocre Cotton Hat', 68728500, NULL, 'Consequatur dolores quis non error porro molestiae.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(588, 'Incredible Granite Wallet', 72198800, NULL, 'Officiis qui quia qui exercitationem est.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(589, 'Heavy Duty Paper Chair', 31554500, NULL, 'Culpa quo at.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(590, 'Awesome Wool Car', 43202400, NULL, 'In animi tempore ipsa magni hic esse.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(591, 'Awesome Marble Shoes', 55728700, NULL, 'Dolores autem rerum maxime perspiciatis.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(592, 'Sleek Iron Shoes', 88853300, NULL, 'Qui eligendi quia repellat corrupti est.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(593, 'Rustic Aluminum Gloves', 89838000, NULL, 'Quia tenetur officia aperiam aut.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(594, 'Lightweight Iron Computer', 39478000, NULL, 'Iusto assumenda dolorem.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(595, 'Practical Concrete Pants', 59118800, NULL, 'Distinctio ut at voluptatum ratione commodi velit necessitatibus.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(596, 'Enormous Plastic Lamp', 20405900, NULL, 'Quis fugiat impedit vitae.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(597, 'Practical Iron Hat', 5659030, NULL, 'Exercitationem eum aut doloribus ipsa.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(598, 'Awesome Marble Pants', 57600900, NULL, 'Vitae distinctio eveniet nostrum facere quibusdam.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(599, 'Enormous Copper Table', 48276200, NULL, 'Nihil et nulla nulla impedit similique expedita consequatur.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(600, 'Rustic Cotton Gloves', 3948360, NULL, 'Blanditiis explicabo nesciunt qui.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(601, 'Fantastic Aluminum Wallet', 80758400, NULL, 'Corporis eum ullam et aperiam asperiores eveniet nisi.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(602, 'Fantastic Cotton Computer', 47921000, NULL, 'Corporis atque in in nesciunt unde commodi.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(603, 'Practical Silk Table', 41303700, NULL, 'Ut voluptatem perferendis.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(604, 'Awesome Copper Gloves', 56889100, NULL, 'Suscipit quis aut aspernatur qui.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(605, 'Enormous Silk Pants', 38945500, NULL, 'Nostrum veniam ipsa ab in necessitatibus.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(606, 'Heavy Duty Copper Pants', 11756800, NULL, 'Maiores mollitia fugiat sequi.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(607, 'Mediocre Leather Bottle', 34476000, NULL, 'Qui tenetur voluptatem dolores soluta quae quia.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(608, 'Durable Steel Car', 83099500, NULL, 'Sint corporis natus voluptatem possimus dolore.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(609, 'Durable Iron Bench', 8508010, NULL, 'Omnis sunt aperiam.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(610, 'Durable Wool Knife', 81421700, NULL, 'Autem dolor provident consequatur laborum repellat in.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(611, 'Aerodynamic Wool Shoes', 15091200, NULL, 'Labore sunt dolor consequatur quo dolores hic.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(612, 'Awesome Wool Lamp', 49500900, NULL, 'Et suscipit qui qui culpa.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(613, 'Practical Marble Watch', 10508700, NULL, 'Ipsa sunt ab maiores odit ea iusto.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(614, 'Enormous Cotton Clock', 75409100, NULL, 'Voluptas exercitationem minima.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(615, 'Awesome Bronze Wallet', 73547700, NULL, 'Tenetur et quisquam et consequatur corrupti quas.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(616, 'Sleek Wooden Car', 86905500, NULL, 'Omnis quaerat consequatur non commodi.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(617, 'Ergonomic Wool Keyboard', 12304700, NULL, 'Non exercitationem vel ab voluptates natus suscipit mollitia.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(618, 'Aerodynamic Granite Bag', 31415000, NULL, 'Officiis assumenda laudantium eligendi placeat.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(619, 'Mediocre Wooden Keyboard', 66810700, NULL, 'Nostrum debitis non rerum id.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(620, 'Incredible Cotton Shirt', 35665700, NULL, 'Velit facilis laborum.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(621, 'Durable Paper Wallet', 80331500, NULL, 'Et aperiam deserunt laudantium et.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(622, 'Awesome Cotton Bottle', 74049600, NULL, 'Ut ratione dicta.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(623, 'Durable Wooden Coat', 14850800, NULL, 'In ea est.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(624, 'Ergonomic Marble Watch', 55504900, NULL, 'Aspernatur consequatur quas.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(625, 'Lightweight Copper Clock', 65153100, NULL, 'Sed quasi quaerat autem dolorem consequatur architecto nobis.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(626, 'Aerodynamic Concrete Watch', 87253600, NULL, 'Et quae deleniti sed quia aperiam.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(627, 'Fantastic Paper Plate', 50138000, NULL, 'Laudantium velit magni.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(628, 'Intelligent Cotton Bag', 53629800, NULL, 'Dolorum blanditiis quisquam non.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(629, 'Lightweight Paper Shoes', 64320000, NULL, 'Qui voluptatum vel qui aliquid non.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(630, 'Sleek Concrete Plate', 48907600, NULL, 'Voluptatibus delectus consectetur suscipit voluptates molestiae aut sed.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(631, 'Mediocre Cotton Gloves', 18920800, NULL, 'Accusamus et magni eius architecto iste omnis.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(632, 'Intelligent Concrete Plate', 16350300, NULL, 'Et omnis possimus quam adipisci voluptates.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(633, 'Enormous Aluminum Chair', 11250000, NULL, 'Aliquid dicta magni et voluptatem et.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(634, 'Aerodynamic Wool Table', 14279900, NULL, 'Quia numquam odit.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(635, 'Aerodynamic Wool Shirt', 13080600, NULL, 'Minus aut quos unde itaque eum eaque.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 2),
+(636, 'Small Iron Coat', 49335400, NULL, 'Natus est occaecati velit in adipisci ipsam iusto.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 3),
+(637, 'Synergistic Rubber Lamp', 62269900, NULL, 'Sint quia qui sint consequuntur aliquam.', '2024-07-14 15:48:13', '2024-07-14 15:48:13', 1),
+(638, 'Synergistic Paper Shoes', 27981500, NULL, 'Omnis et excepturi.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(639, 'Practical Paper Bottle', 44678300, NULL, 'Voluptatum tempore qui ut rerum.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 3),
+(640, 'Durable Copper Shirt', 16068800, NULL, 'Et quibusdam quia eum alias.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(641, 'Small Linen Hat', 14528400, NULL, 'Asperiores sed non saepe sit nesciunt odit quo.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(642, 'Ergonomic Paper Table', 39233800, NULL, 'Dolor repellat molestiae dolorem quos ipsum quo illo.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(643, 'Gorgeous Rubber Bench', 49707800, NULL, 'Pariatur dolore corporis quibusdam explicabo eos.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 3),
+(644, 'Heavy Duty Wooden Bottle', 32170600, NULL, 'Eum ut numquam blanditiis hic.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(645, 'Sleek Marble Shoes', 76195500, NULL, 'Provident blanditiis magnam velit omnis corrupti tenetur animi.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(646, 'Enormous Iron Keyboard', 79486500, NULL, 'Cum adipisci dolor quibusdam et.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(647, 'Durable Copper Watch', 30558500, NULL, 'Qui quidem alias natus ex neque mollitia molestias.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(648, 'Durable Concrete Clock', 49221700, NULL, 'Reiciendis occaecati nemo ipsum ex.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 3),
+(649, 'Awesome Leather Knife', 51707900, NULL, 'Occaecati non rerum maiores suscipit ratione et soluta.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(650, 'Incredible Marble Shoes', 78785100, NULL, 'Minima et voluptatem quia.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(651, 'Incredible Bronze Wallet', 84718500, NULL, 'Ex ut hic ut.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(652, 'Durable Plastic Shirt', 88016000, NULL, 'Eaque sit reprehenderit unde cupiditate eveniet ipsa.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(653, 'Enormous Bronze Watch', 20767700, NULL, 'Consequuntur hic qui illo sed modi omnis.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(654, 'Small Linen Bag', 86111800, NULL, 'Cupiditate labore amet minima illum non dignissimos magni.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(655, 'Incredible Paper Wallet', 21761800, NULL, 'Asperiores et itaque veritatis odio error iure.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(656, 'Durable Bronze Bag', 35280900, NULL, 'Dolores occaecati quaerat et provident aut.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(657, 'Sleek Silk Shirt', 46753400, NULL, 'Ea nesciunt et saepe nobis.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(658, 'Enormous Steel Knife', 67008000, NULL, 'Velit consequatur voluptas.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(659, 'Awesome Concrete Wallet', 27261900, NULL, 'Unde quia perferendis eaque omnis est eius.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(660, 'Awesome Aluminum Computer', 27027100, NULL, 'Voluptates perspiciatis nulla.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(661, 'Mediocre Wool Bag', 58144700, NULL, 'Culpa aperiam sunt odit voluptatem quam.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(662, 'Ergonomic Plastic Hat', 10843300, NULL, 'Saepe praesentium praesentium beatae optio perferendis.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(663, 'Small Wool Shoes', 77858400, NULL, 'Repellat nostrum occaecati et.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(664, 'Gorgeous Bronze Shirt', 17899600, NULL, 'Qui tenetur recusandae rerum.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(665, 'Practical Paper Gloves', 16371400, NULL, 'Voluptatem totam iusto dolores omnis magni.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(666, 'Fantastic Paper Lamp', 49110600, NULL, 'Minus eligendi ducimus debitis hic odit et.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 3),
+(667, 'Small Wool Watch', 23390500, NULL, 'Officiis a modi nobis ipsa alias.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 3),
+(668, 'Mediocre Silk Keyboard', 53712400, NULL, 'Ipsam omnis doloribus fugit dolor enim.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(669, 'Enormous Wooden Lamp', 81657500, NULL, 'Totam voluptatem sit repellat.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(670, 'Durable Granite Shirt', 62674400, NULL, 'Quidem consequatur nesciunt sed tempora.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 3),
+(671, 'Practical Leather Lamp', 10310600, NULL, 'Ea in cumque dolorem mollitia.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(672, 'Durable Aluminum Gloves', 50196900, NULL, 'Nihil totam aut est voluptatibus veniam.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(673, 'Durable Marble Chair', 61975000, NULL, 'Veritatis eum labore expedita.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(674, 'Aerodynamic Iron Pants', 3862160, NULL, 'Maxime dolorem nesciunt.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(675, 'Gorgeous Bronze Shoes', 23165100, NULL, 'Iste eligendi eius ducimus.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(676, 'Rustic Linen Chair', 84743700, NULL, 'Sed quam omnis.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(677, 'Synergistic Silk Chair', 89455800, NULL, 'Harum corrupti ducimus temporibus.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(678, 'Heavy Duty Plastic Gloves', 61403100, NULL, 'Ducimus recusandae iusto inventore et voluptatibus.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(679, 'Rustic Rubber Coat', 36159100, NULL, 'Repellendus maiores molestiae unde architecto voluptatibus eos eos.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(680, 'Heavy Duty Concrete Plate', 57298000, NULL, 'Repudiandae optio et excepturi unde qui voluptates.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(681, 'Gorgeous Copper Hat', 30470900, NULL, 'Doloremque eius quia error voluptatem deserunt.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(682, 'Rustic Iron Bottle', 53783800, NULL, 'Rem sit in molestias odio amet harum sed.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(683, 'Durable Iron Bag', 17659500, NULL, 'Atque nam qui.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(684, 'Lightweight Aluminum Computer', 36362400, NULL, 'Provident sunt et eligendi.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(685, 'Mediocre Steel Wallet', 33157000, NULL, 'Et nesciunt enim similique velit quam.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(686, 'Enormous Copper Pants', 53202600, NULL, 'Soluta et accusamus tempore itaque omnis.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(687, 'Mediocre Rubber Plate', 64707100, NULL, 'Sed excepturi quia pariatur.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(688, 'Intelligent Concrete Bag', 18001000, NULL, 'In sit deserunt.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(689, 'Synergistic Rubber Shirt', 80016500, NULL, 'Optio necessitatibus et recusandae ducimus est et aut.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(690, 'Mediocre Silk Gloves', 47881900, NULL, 'Accusamus enim consectetur autem.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(691, 'Sleek Marble Bag', 57316600, NULL, 'Aut eum doloribus.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(692, 'Aerodynamic Plastic Bag', 50843700, NULL, 'Qui eos amet blanditiis.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(693, 'Fantastic Marble Bottle', 74919600, NULL, 'Vel sapiente consequatur dolor et.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 3),
+(694, 'Heavy Duty Bronze Bench', 35806000, NULL, 'Reprehenderit nulla id facere et non doloribus.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(695, 'Synergistic Wooden Pants', 57278300, NULL, 'Quo non et consequuntur illo omnis et tempore.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(696, 'Durable Marble Gloves', 77864100, NULL, 'Adipisci sint dolorem beatae quaerat ducimus sunt.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 2),
+(697, 'Ergonomic Linen Pants', 31944900, NULL, 'Unde tempore sed unde corporis vel.', '2024-07-14 15:48:14', '2024-07-14 15:48:14', 1),
+(698, 'Synergistic Rubber Table', 89614600, NULL, 'Perspiciatis debitis ducimus repellat voluptas dolores.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(699, 'Intelligent Wool Lamp', 19526600, NULL, 'Incidunt repellendus est et.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(700, 'Durable Plastic Pants', 32601700, NULL, 'Quis vel provident qui ea dolorem.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(701, 'Sleek Concrete Bag', 63971900, NULL, 'Voluptas voluptas quia aut et doloribus.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(702, 'Heavy Duty Plastic Table', 72409100, NULL, 'Incidunt facere aliquam necessitatibus nam ad deleniti.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(703, 'Lightweight Granite Shirt', 11163400, NULL, 'Sint labore eos.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(704, 'Small Plastic Lamp', 79160500, NULL, 'Modi sint consequatur debitis.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(705, 'Enormous Marble Bag', 45892100, NULL, 'Nostrum quia consequatur ex omnis temporibus aut.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(706, 'Sleek Steel Keyboard', 44872600, NULL, 'Impedit voluptas repudiandae veritatis.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(707, 'Heavy Duty Copper Shirt', 23329600, NULL, 'Earum ea quae magnam ut soluta.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(708, 'Durable Steel Computer', 7822210, NULL, 'Quia quas aliquam assumenda sit ea ullam fugiat.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(709, 'Durable Rubber Bag', 8541810, NULL, 'Ducimus rem culpa omnis ab similique molestiae.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(710, 'Enormous Bronze Bench', 12319100, NULL, 'Magnam totam recusandae.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(711, 'Ergonomic Copper Chair', 76912100, NULL, 'Fuga eos nam consectetur quasi tenetur enim a.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(712, 'Synergistic Plastic Gloves', 64862800, NULL, 'Velit maxime laboriosam.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(713, 'Incredible Linen Watch', 82018700, NULL, 'Illo iste recusandae voluptatem facilis.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(714, 'Small Steel Bench', 31065400, NULL, 'Sed minima quae non earum fugit natus.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(715, 'Ergonomic Plastic Watch', 77609900, NULL, 'Autem rem dolores.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(716, 'Small Copper Computer', 88390300, NULL, 'Consequatur repellendus quo voluptatibus optio nobis et aliquam.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(717, 'Durable Paper Table', 46491300, NULL, 'Sequi dolores et aut ullam facere praesentium.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(718, 'Lightweight Wool Plate', 16909100, NULL, 'Laboriosam et voluptatibus recusandae sit officiis excepturi.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(719, 'Intelligent Granite Hat', 18809600, NULL, 'Voluptatem quibusdam dolorem.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(720, 'Mediocre Wool Watch', 71793300, NULL, 'Animi et est.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(721, 'Fantastic Rubber Chair', 46258500, NULL, 'Ut ea amet.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(722, 'Small Granite Lamp', 5340000, NULL, 'Illo nisi qui commodi dolorum sint est.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(723, 'Synergistic Marble Lamp', 21690800, NULL, 'Quia aut repudiandae nobis ut iste odio.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(724, 'Synergistic Iron Chair', 68257400, NULL, 'Esse harum voluptatem nisi sunt reiciendis.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(725, 'Rustic Wooden Bottle', 73046000, NULL, 'Et aut praesentium quis ullam.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(726, 'Heavy Duty Steel Pants', 8906450, NULL, 'Distinctio sed eius sint consequatur dolores iusto.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(727, 'Ergonomic Steel Lamp', 57313200, NULL, 'Quasi explicabo perspiciatis nulla voluptatem.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(728, 'Awesome Copper Computer', 5182440, NULL, 'Cupiditate accusantium enim ipsum ut dolore illum.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(729, 'Small Steel Bottle', 9385890, NULL, 'Rerum tenetur et ducimus ullam.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(730, 'Durable Leather Clock', 11638900, NULL, 'Autem et qui.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(731, 'Mediocre Concrete Computer', 77072600, NULL, 'A ut voluptas.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(732, 'Mediocre Leather Computer', 5926740, NULL, 'Molestiae asperiores in.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(733, 'Intelligent Leather Shirt', 12466900, NULL, 'Et ab itaque aut.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(734, 'Sleek Bronze Coat', 82643600, NULL, 'Vel unde corporis.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(735, 'Synergistic Granite Shoes', 41834200, NULL, 'Rerum ipsum neque provident.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(736, 'Aerodynamic Concrete Table', 54763600, NULL, 'Ea rerum beatae totam mollitia asperiores eum.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(737, 'Sleek Linen Pants', 42084800, NULL, 'Nihil aut architecto ad natus aut quas magnam.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(738, 'Small Steel Shoes', 22243200, NULL, 'Et molestiae ducimus et ea.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(739, 'Practical Marble Plate', 75363900, NULL, 'Neque voluptas dolore ex sunt doloremque.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(740, 'Fantastic Leather Plate', 65091300, NULL, 'Suscipit quos et.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(741, 'Ergonomic Concrete Bottle', 87487900, NULL, 'Mollitia quod eius atque natus neque rerum.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(742, 'Rustic Wooden Clock', 83141600, NULL, 'Sed illum consequatur et et est quo.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(743, 'Rustic Steel Wallet', 80757100, NULL, 'Aut optio et rerum ipsa error.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(744, 'Heavy Duty Copper Table', 38805300, NULL, 'Cum exercitationem in natus.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(745, 'Intelligent Concrete Wallet', 70487000, NULL, 'Aut quia autem facere in.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(746, 'Rustic Bronze Pants', 40818400, NULL, 'Ut quae magni ad delectus sequi.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(747, 'Mediocre Iron Gloves', 20591400, NULL, 'Et est facilis magni.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(748, 'Fantastic Iron Hat', 5377940, NULL, 'Similique modi tempore sint dolore.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(749, 'Incredible Iron Plate', 8116500, NULL, 'Dolorum delectus iure natus excepturi adipisci.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(750, 'Incredible Paper Bag', 52951500, NULL, 'Nihil et praesentium qui sit ut et.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(751, 'Practical Granite Hat', 44044700, NULL, 'Voluptate quibusdam delectus placeat occaecati qui asperiores.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(752, 'Lightweight Rubber Hat', 50651800, NULL, 'Omnis ullam placeat aspernatur aliquid.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(753, 'Practical Wool Pants', 80100300, NULL, 'Molestiae maxime rerum laborum quaerat.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(754, 'Ergonomic Concrete Bag', 40261500, NULL, 'Fuga nostrum minus.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(755, 'Aerodynamic Aluminum Bottle', 1358140, NULL, 'Ipsam tempore aut deserunt.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(756, 'Rustic Silk Chair', 80137200, NULL, 'Qui optio adipisci perspiciatis totam repellat.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(757, 'Sleek Iron Car', 73142500, NULL, 'Commodi facere cupiditate.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(758, 'Lightweight Steel Bench', 53480500, NULL, 'Maiores est et eum et delectus rem.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(759, 'Awesome Plastic Pants', 48791200, NULL, 'Quam inventore illum temporibus labore unde rem.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(760, 'Heavy Duty Paper Clock', 77407300, NULL, 'Veritatis eos ut odit repellendus aut.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(761, 'Awesome Aluminum Watch', 4604530, NULL, 'Sed animi perspiciatis quae dignissimos quisquam.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(762, 'Mediocre Steel Clock', 27033300, NULL, 'Non facere repudiandae nam nesciunt incidunt quos.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(763, 'Durable Copper Coat', 79276600, NULL, 'Eos voluptas aut.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(764, 'Synergistic Copper Wallet', 47353800, NULL, 'Sunt ea rerum.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(765, 'Durable Wool Chair', 63886200, NULL, 'Quasi quisquam qui officiis quo accusamus quo quisquam.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(766, 'Small Cotton Watch', 25397900, NULL, 'Vel esse dolorem modi.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(767, 'Awesome Copper Coat', 30017000, NULL, 'Eum facilis eligendi rem et deserunt sapiente et.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(768, 'Sleek Wooden Clock', 59571700, NULL, 'Culpa qui optio libero.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(769, 'Ergonomic Copper Lamp', 39172400, NULL, 'Id blanditiis aut sint culpa autem laborum.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 3),
+(770, 'Incredible Rubber Car', 70875000, NULL, 'Corrupti repellendus neque quia sint qui.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(771, 'Ergonomic Rubber Shirt', 35165000, NULL, 'Ipsam cupiditate possimus.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(772, 'Incredible Concrete Wallet', 72591300, NULL, 'Dolor cum quo sit et nobis id consequuntur.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(773, 'Awesome Cotton Car', 50479700, NULL, 'Neque molestiae nobis qui praesentium delectus.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 2),
+(774, 'Intelligent Bronze Pants', 24748700, NULL, 'Ut voluptates natus ratione.', '2024-07-14 15:48:15', '2024-07-14 15:48:15', 1),
+(775, 'Fantastic Aluminum Bottle', 23706600, NULL, 'Dicta facilis quisquam eaque vel accusantium suscipit.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(776, 'Rustic Linen Pants', 85894000, NULL, 'Ut qui aspernatur velit sit.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(777, 'Incredible Plastic Bench', 57908200, NULL, 'Nihil necessitatibus nostrum qui laudantium consequuntur eveniet.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(778, 'Heavy Duty Leather Bottle', 82573300, NULL, 'Ex praesentium minus ullam aut illum.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(779, 'Synergistic Wool Coat', 76273200, NULL, 'Libero nostrum et beatae aut enim.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(780, 'Ergonomic Linen Clock', 18419200, NULL, 'Hic pariatur voluptas exercitationem impedit.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(781, 'Durable Aluminum Hat', 39265800, NULL, 'Qui necessitatibus consequatur quidem eaque harum omnis eum.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(782, 'Lightweight Steel Lamp', 28394300, NULL, 'Fugiat repellat fuga molestiae nam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(783, 'Practical Leather Shirt', 20298500, NULL, 'Nesciunt molestias dolores.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(784, 'Sleek Aluminum Bottle', 27033400, NULL, 'Fugit tempore maxime ea itaque sequi fugiat a.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(785, 'Sleek Linen Watch', 81455700, NULL, 'Ipsum asperiores similique et natus ipsum quo.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(786, 'Lightweight Concrete Bench', 17207500, NULL, 'Ducimus qui magni optio porro occaecati quisquam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(787, 'Sleek Marble Clock', 37008400, NULL, 'Similique eum ea nihil quam minima reiciendis.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(788, 'Incredible Concrete Chair', 76271700, NULL, 'Possimus quia neque vitae.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(789, 'Sleek Wooden Lamp', 36504100, NULL, 'Hic hic quos soluta.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(790, 'Ergonomic Linen Gloves', 53893400, NULL, 'Alias qui atque vero perspiciatis asperiores rerum.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(791, 'Rustic Concrete Shoes', 47926100, NULL, 'Dolorem dicta quia beatae debitis.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(792, 'Mediocre Plastic Bottle', 14742900, NULL, 'Magni qui ipsam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(793, 'Awesome Silk Shirt', 84233900, NULL, 'Impedit totam laborum et adipisci.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(794, 'Heavy Duty Rubber Watch', 35227800, NULL, 'Aliquid reprehenderit et quis et ut.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(795, 'Lightweight Copper Shirt', 76263200, NULL, 'Sed rerum id ut fugiat.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(796, 'Rustic Plastic Watch', 40398000, NULL, 'Maxime consequuntur dolores accusamus non.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(797, 'Awesome Copper Lamp', 24370600, NULL, 'Omnis qui et saepe odit consequatur ratione ut.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(798, 'Mediocre Copper Hat', 4152160, NULL, 'Natus voluptatem qui.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(799, 'Gorgeous Copper Bag', 55168800, NULL, 'Eius dolor esse laborum numquam quibusdam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(800, 'Rustic Paper Computer', 68497700, NULL, 'Non qui et voluptates impedit ea perspiciatis.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(801, 'Durable Granite Bag', 8075570, NULL, 'Nemo iure laudantium libero similique repellat aut.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(802, 'Mediocre Linen Bench', 33249300, NULL, 'Incidunt a impedit nihil nam iste ullam deserunt.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(803, 'Rustic Steel Watch', 67764600, NULL, 'Pariatur possimus alias cum.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(804, 'Awesome Linen Hat', 78593700, NULL, 'Quas est officiis eum est voluptatem porro veritatis.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(805, 'Intelligent Wool Bench', 81450800, NULL, 'Qui sit sit voluptatibus eum veniam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(806, 'Small Marble Bench', 82875000, NULL, 'Blanditiis aut culpa architecto sit aliquam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(807, 'Small Marble Shirt', 40787500, NULL, 'Enim fuga voluptatem.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(808, 'Lightweight Leather Shirt', 51837500, NULL, 'Nobis maiores et.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(809, 'Awesome Iron Computer', 42432000, NULL, 'Voluptatem dolore nostrum dolores aut mollitia.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(810, 'Ergonomic Wool Bench', 23438100, NULL, 'Consequatur facere veniam cupiditate sapiente et.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(811, 'Enormous Leather Bottle', 7749290, NULL, 'Neque possimus quo eveniet.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(812, 'Synergistic Rubber Bench', 81371500, NULL, 'Rerum molestiae tenetur qui a quia omnis odit.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(813, 'Fantastic Iron Table', 47380000, NULL, 'Voluptas qui temporibus odio totam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(814, 'Practical Leather Car', 14527700, NULL, 'Sed facilis minus fugiat in ab.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(815, 'Aerodynamic Linen Bag', 64614200, NULL, 'Assumenda aut officiis non expedita dolorem velit.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(816, 'Incredible Marble Bottle', 14282900, NULL, 'Nemo quo ut sapiente error neque.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(817, 'Awesome Iron Knife', 50304700, NULL, 'Similique in est.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(818, 'Small Concrete Watch', 27530800, NULL, 'Officiis quas aut qui.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(819, 'Small Rubber Clock', 5275910, NULL, 'Illum at temporibus ut eum error rerum in.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(820, 'Lightweight Bronze Gloves', 64732400, NULL, 'Delectus molestiae unde ipsa.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(821, 'Durable Paper Shirt', 29304100, NULL, 'Possimus sed assumenda quo qui.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(822, 'Synergistic Bronze Shirt', 53308800, NULL, 'Possimus dolores voluptas in.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(823, 'Awesome Leather Bottle', 28156100, NULL, 'Ipsam fugiat fugiat.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(824, 'Incredible Aluminum Shoes', 8448240, NULL, 'Illo officia quibusdam.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(825, 'Sleek Cotton Watch', 65945500, NULL, 'Architecto hic qui facilis voluptatem.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(826, 'Ergonomic Iron Chair', 53292500, NULL, 'Maiores possimus consectetur dolore aut dolorem.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(827, 'Durable Plastic Bag', 61205600, NULL, 'Repellendus doloribus minus minima vero ipsum magni.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(828, 'Synergistic Copper Computer', 74768000, NULL, 'Eius error iusto et maiores alias exercitationem odit.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(829, 'Fantastic Marble Bench', 68329200, NULL, 'Maxime mollitia voluptatem.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(830, 'Enormous Wool Plate', 49262400, NULL, 'Ut magnam ducimus magni placeat.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(831, 'Aerodynamic Plastic Hat', 35051400, NULL, 'Eaque tenetur qui ut non modi ab.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(832, 'Fantastic Leather Lamp', 48247800, NULL, 'Aperiam repellat recusandae est itaque praesentium non.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(833, 'Practical Aluminum Lamp', 47944000, NULL, 'Ex dolores dicta ut quod sit maiores.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(834, 'Rustic Silk Shoes', 23479600, NULL, 'Eaque perferendis cumque dolorem.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(835, 'Awesome Silk Gloves', 16797100, NULL, 'Officia consequatur ratione expedita voluptatem non.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(836, 'Mediocre Silk Lamp', 76463400, NULL, 'Quo non similique nostrum harum sint.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(837, 'Enormous Bronze Clock', 72828800, NULL, 'Corporis eum blanditiis non dolorem est corporis.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(838, 'Gorgeous Leather Coat', 42712200, NULL, 'Voluptatibus voluptatem quam ad autem animi excepturi.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(839, 'Aerodynamic Cotton Clock', 25489700, NULL, 'Expedita omnis eveniet ex.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 3),
+(840, 'Sleek Linen Lamp', 25917800, NULL, 'Sint rerum dolor commodi porro.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(841, 'Rustic Paper Lamp', 48723200, NULL, 'Qui quasi sunt facere.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(842, 'Fantastic Wool Table', 31935300, NULL, 'Ea tempore consequatur eveniet sint.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 1),
+(843, 'Heavy Duty Linen Shirt', 88702200, NULL, 'Optio repudiandae dolorem suscipit nihil similique.', '2024-07-14 15:48:16', '2024-07-14 15:48:16', 2),
+(844, 'Fantastic Rubber Computer', 71238000, NULL, 'Ad deleniti corrupti laboriosam.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(845, 'Practical Silk Knife', 46258700, NULL, 'Aliquam dolorem at eum laudantium autem inventore ipsam.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(846, 'Incredible Wooden Plate', 9864590, NULL, 'Hic iste qui recusandae.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(847, 'Gorgeous Leather Clock', 72724500, NULL, 'Sint nulla sequi repellendus sequi sunt ut cum.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(848, 'Gorgeous Cotton Gloves', 65837400, NULL, 'Voluptatem tempore a.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(849, 'Small Granite Plate', 20868100, NULL, 'Cumque aspernatur minus.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(850, 'Sleek Bronze Knife', 6947080, NULL, 'Architecto veniam consequatur.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(851, 'Lightweight Plastic Shirt', 7146960, NULL, 'Doloribus itaque molestias.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(852, 'Rustic Copper Gloves', 25195100, NULL, 'Sint consequatur sed.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(853, 'Intelligent Wooden Hat', 9502090, NULL, 'Consequatur eos est perferendis numquam at.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(854, 'Incredible Copper Lamp', 76631000, NULL, 'Porro quis ab sit doloribus autem.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(855, 'Enormous Plastic Clock', 89618200, NULL, 'Natus aut fuga.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(856, 'Enormous Marble Clock', 21504400, NULL, 'Eum maiores magni.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(857, 'Gorgeous Steel Gloves', 54989600, NULL, 'Quod accusamus necessitatibus eveniet nihil quidem dicta molestiae.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(858, 'Durable Wool Keyboard', 58276900, NULL, 'Aut qui nulla.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(859, 'Gorgeous Cotton Wallet', 72060700, NULL, 'Occaecati hic quidem facere vero aut sed reprehenderit.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(860, 'Mediocre Iron Clock', 1091450, NULL, 'Et occaecati esse et.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(861, 'Sleek Leather Lamp', 83683500, NULL, 'Dolorem aut quaerat.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(862, 'Gorgeous Steel Bag', 85045500, NULL, 'Eum quos laborum quia beatae.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(863, 'Durable Marble Bench', 3554330, NULL, 'Consectetur voluptatum sit sed.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(864, 'Sleek Copper Hat', 4670740, NULL, 'Error delectus recusandae.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(865, 'Rustic Rubber Lamp', 30144700, NULL, 'Tenetur deserunt quis nihil non doloribus placeat.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(866, 'Ergonomic Paper Plate', 62004400, NULL, 'Non qui eum libero suscipit.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(867, 'Sleek Paper Plate', 72749900, NULL, 'Molestiae culpa facere inventore porro quasi harum.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(868, 'Durable Leather Knife', 54781600, NULL, 'Excepturi dolorem nemo labore quia consectetur voluptatem ipsam.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(869, 'Sleek Granite Keyboard', 53684800, NULL, 'Iure officiis rerum ratione ipsam rerum.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(870, 'Rustic Bronze Bench', 9861520, NULL, 'Eveniet aut porro.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(871, 'Intelligent Bronze Shoes', 11685600, NULL, 'Rerum unde facilis alias.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(872, 'Gorgeous Leather Hat', 86851700, NULL, 'Ad at est neque facilis et aut excepturi.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(873, 'Lightweight Paper Keyboard', 29992600, NULL, 'Et voluptas sit eaque neque voluptas consectetur maxime.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(874, 'Awesome Rubber Keyboard', 52173500, NULL, 'Excepturi architecto et fugit quia reiciendis maxime beatae.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(875, 'Heavy Duty Iron Shirt', 21866000, NULL, 'Quis dolorem illo voluptates sint quibusdam.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(876, 'Synergistic Granite Pants', 28154200, NULL, 'Consequatur aut et rerum rem consequatur quibusdam ipsa.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(877, 'Ergonomic Bronze Lamp', 33243800, NULL, 'Id voluptatem consequatur cum rerum in quaerat.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(878, 'Heavy Duty Concrete Knife', 16517400, NULL, 'Et corrupti eveniet eaque vel.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(879, 'Lightweight Granite Lamp', 13821200, NULL, 'Recusandae rerum architecto sunt necessitatibus aspernatur blanditiis.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(880, 'Gorgeous Wool Clock', 32738100, NULL, 'Culpa doloremque tempora dolorum fuga iusto nemo vero.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(881, 'Heavy Duty Concrete Chair', 62324400, NULL, 'Natus perferendis corrupti exercitationem.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(882, 'Mediocre Granite Table', 66686700, NULL, 'Eligendi quod quod quod dolores explicabo delectus.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(883, 'Intelligent Cotton Bench', 72431900, NULL, 'Qui nulla ea officia consequatur.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(884, 'Ergonomic Marble Chair', 80260300, NULL, 'Est sed reiciendis nostrum vero.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(885, 'Gorgeous Aluminum Coat', 49383500, NULL, 'Odio aperiam hic quia suscipit velit.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(886, 'Rustic Rubber Table', 50698000, NULL, 'Quae laborum totam.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(887, 'Awesome Concrete Keyboard', 77977900, NULL, 'Vero ea non ipsam atque architecto non.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(888, 'Incredible Rubber Plate', 74783300, NULL, 'Cum neque nemo earum.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(889, 'Rustic Cotton Car', 6117850, NULL, 'Voluptatem ut facere ea cum minus.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(890, 'Small Marble Watch', 35883800, NULL, 'Eos fugiat enim et perferendis qui laudantium.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(891, 'Mediocre Wooden Coat', 51837800, NULL, 'Nesciunt tempore quo ullam dolorum corporis incidunt sequi.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(892, 'Lightweight Paper Car', 89685600, NULL, 'Quisquam fugit labore vero molestiae.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(893, 'Synergistic Granite Shirt', 88175100, NULL, 'Necessitatibus ullam consequuntur delectus consectetur iusto accusamus dolor.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(894, 'Synergistic Concrete Shoes', 25254700, NULL, 'Tempora impedit saepe eos quas fugiat et.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(895, 'Fantastic Bronze Hat', 3238570, NULL, 'Ex quo qui corporis laborum qui.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(896, 'Lightweight Wool Gloves', 17545500, NULL, 'Officiis aliquid explicabo est non.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(897, 'Fantastic Cotton Pants', 60776600, NULL, 'Ipsa veritatis eius amet non est sint et.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(898, 'Intelligent Wool Knife', 37156400, NULL, 'Nihil ratione atque unde.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(899, 'Fantastic Cotton Knife', 50373300, NULL, 'Nostrum exercitationem optio.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(900, 'Incredible Granite Table', 76105300, NULL, 'Amet aut eum enim ea sint asperiores magnam.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(901, 'Aerodynamic Leather Clock', 33896000, NULL, 'Minus facilis nemo cum autem.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(902, 'Sleek Concrete Wallet', 82387800, NULL, 'Quae enim et saepe est deserunt animi.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 3),
+(903, 'Practical Silk Shoes', 87844300, NULL, 'Nihil ut ipsam nobis officia omnis porro quia.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(904, 'Durable Steel Shirt', 13404100, NULL, 'Neque ratione et.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(905, 'Intelligent Wooden Watch', 11171400, NULL, 'Id blanditiis eius qui et.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(906, 'Gorgeous Aluminum Shoes', 47353900, NULL, 'Et nisi culpa ut et facere nisi.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(907, 'Heavy Duty Bronze Clock', 32132700, NULL, 'Esse quos blanditiis sit aperiam neque eum animi.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(908, 'Ergonomic Plastic Chair', 66567200, NULL, 'Sit magnam qui libero laudantium illo.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(909, 'Heavy Duty Marble Shoes', 41752800, NULL, 'Sunt sunt quo doloribus doloribus quis ut magnam.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(910, 'Mediocre Rubber Shirt', 58869100, NULL, 'Quasi doloribus neque.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(911, 'Small Granite Gloves', 54570200, NULL, 'Dolor libero nesciunt suscipit exercitationem explicabo.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(912, 'Lightweight Rubber Shoes', 85663200, NULL, 'Deserunt magni laborum autem vero doloremque sed fugiat.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(913, 'Sleek Iron Lamp', 52207400, NULL, 'Culpa doloremque consequatur non.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(914, 'Synergistic Silk Table', 86040900, NULL, 'Autem aut omnis ea voluptatem modi qui dignissimos.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(915, 'Fantastic Marble Bag', 69618600, NULL, 'Est tempore qui.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 1),
+(916, 'Mediocre Leather Shoes', 34147000, NULL, 'Saepe expedita fugiat rerum voluptatem sed sint.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(917, 'Lightweight Rubber Pants', 26501400, NULL, 'Laborum eum ut quam aut ipsam eius.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(918, 'Rustic Granite Car', 55699900, NULL, 'Et sunt velit qui earum tenetur porro.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(919, 'Lightweight Wooden Shoes', 26202800, NULL, 'Blanditiis ipsa consectetur dignissimos dolore.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(920, 'Sleek Wool Chair', 27025300, NULL, 'Aliquid dicta esse sed dolore sit sint possimus.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(921, 'Intelligent Cotton Wallet', 47935900, NULL, 'Dolore voluptas voluptas incidunt accusantium accusamus vero.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(922, 'Sleek Copper Chair', 82165300, NULL, 'Est corporis ipsa amet vel neque nobis.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2),
+(923, 'Lightweight Iron Bottle', 7595220, NULL, 'Autem molestiae dolor laudantium ullam eaque a.', '2024-07-14 15:48:17', '2024-07-14 15:48:17', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_images`
+--
+
+CREATE TABLE `product_images` (
+  `id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `image_url` varchar(300) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_images`
+--
+
+INSERT INTO `product_images` (`id`, `product_id`, `image_url`) VALUES
+(3, 8, '7d747385-a4ab-4adf-b290-77c18e616310_i7.jpg'),
+(4, 8, 'f9d2251c-471f-4e97-a630-1d5bf4e96e7e_i3.jpg'),
+(5, 8, '3b3799b3-8ba7-493f-a66f-d7a186205f57_i2.jpg'),
+(6, 8, '9ef9f7a4-f7fd-403b-9b55-67fe23ea2926_i1.jpg'),
+(7, 9, '015a1117-b64a-47ab-8fb1-65b31bb36713_i8.jpg'),
+(8, 9, '058d09c9-1650-45a7-953c-d1fcdd76c37b_i7.jpg'),
+(9, 9, '4ca327f6-dc14-4958-ad2e-991466f59df5_i3.jpg'),
+(10, 9, '0428cc82-c3ec-4ca9-8d9e-adaca3ef384d_i2.jpg'),
+(11, 10, '48b657f1-b48d-4b82-b1dc-1cfbb6f7d81d_i10.jpg'),
+(12, 10, 'a295006e-29a4-48a6-b7d9-da54ad7c576a_i8.jpg'),
+(13, 10, '07485230-a7ae-4117-993d-ca3ea5c2aca4_i7.jpg'),
+(14, 10, '6c3272de-fb78-438f-9612-468b1c1a26d3_i3.jpg'),
+(15, 11, 'f3dfa5da-20e8-4373-9e96-e75d63471669_i11.jpg'),
+(16, 11, '54fb282c-3598-4423-8403-1d6e321882a7_i10.jpg'),
+(17, 11, '13b75251-025e-474e-a8fe-4dbbc0bb5513_i8.jpg'),
+(18, 11, '4e9da581-a9b5-4fa5-8907-a389ddcea3b6_i7.jpg'),
+(19, 12, '8efe8917-bd61-4944-b461-ccca00eaf4da_i13.jpg'),
+(20, 12, '73fed0fe-40c7-4e21-940e-60c8a5991053_i11.jpg'),
+(21, 12, '8aa392c0-21f1-47fd-8458-39033a740d0b_i10.jpg'),
+(22, 12, '785c5c33-cc43-4ea9-a425-5548bfc90cc8_i8.jpg'),
+(23, 13, 'ce722aba-1101-487b-aa12-f8b38ce1c26c_i14.jpg'),
+(24, 13, '21a560f7-bb1b-4e19-8dd1-cb989c1a3012_i13.jpg'),
+(25, 13, '6c2598ed-d334-4f72-81b1-64cb86fca6d9_i11.jpg'),
+(26, 13, 'c65cd9af-b790-4516-bb59-b4d8225ef5df_i10.jpg'),
+(27, 14, '88345b2b-8dd5-4760-a4fa-00aa9101c813_i22.jpg'),
+(28, 14, '277f6fc9-e090-48bb-bc57-528ae5e475f6_i20.jpg'),
+(29, 14, '8ff68159-dce5-46d5-a12e-39a0bd1ae1be_i16.jpg'),
+(30, 14, 'a00d402d-5850-4e92-9b73-13272f8fe75b_i14.jpg'),
+(31, 15, 'c2fca7fa-d53e-40ab-8979-d23f8e30b79a_i52.jpg'),
+(32, 15, 'a17fc371-39ae-4b93-aab8-103dff731a51_i51.jpg'),
+(33, 15, '1de5c961-301e-45e1-b599-a7efd381ee98_i50.jpg'),
+(34, 15, '1c6f60c7-010b-4392-b68c-0ff1c8314c9d_i49.jpg'),
+(35, 16, '004a6f25-8a78-4847-819d-3b3bd286612b_i51.jpg'),
+(36, 16, 'ced83174-18e0-429e-a88b-6f286877aa8f_i50.jpg'),
+(37, 16, '8c2e3b48-7486-45be-9dcf-e996c74b8d80_i49.jpg'),
+(38, 16, 'f673f847-abe2-4818-bd2d-2619a3489a07_i48.jpg'),
+(39, 17, '3784cf6d-3394-4797-a1f0-ee80f3af6efc_i50.jpg'),
+(40, 17, 'b75014e8-d4f6-467c-99a6-8e0857d026fc_i49.jpg'),
+(41, 17, '72b01ec0-539e-42a8-87ce-75cc367ed352_i48.jpg'),
+(42, 17, '580051a0-2c01-4c3e-ab33-07e4ce396096_i47.jpg'),
+(43, 18, '6dff9c20-aed9-4867-ba22-5c3e8934fa10_i50.jpg'),
+(44, 18, 'b9b1273e-3515-421a-9f1b-b0782b1dca31_i49.jpg'),
+(45, 18, '3654c82b-4b90-410c-bcc6-2ae988b054e0_i48.jpg'),
+(46, 18, 'bd32afda-fe89-4af9-b4da-7116ae81af91_i47.jpg'),
+(47, 18, 'a5d97cc8-7ffa-4b82-a1a2-53a825b296f4_i49.jpg'),
+(48, 19, '3a91dcec-c7b0-4823-a8fe-cd7ed2f1ffc6_i49.jpg'),
+(49, 19, '00bb69a7-2089-4eb6-82ef-434fa45f0e85_i48.jpg'),
+(50, 19, '23bd5970-b65f-42fe-9e44-ed65caf08dc1_i47.jpg'),
+(51, 19, 'f9e25826-b971-4518-8a56-72e4cdfa6a0e_i46.jpg'),
+(52, 20, '7a077340-dbd1-47fa-871a-896465cf6d9a_i48.jpg'),
+(53, 20, 'be9152a7-06fa-4312-ba16-16f1f7be0fac_i47.jpg'),
+(54, 20, '6e586f28-6e25-48d1-a66f-a58546418b8b_i46.jpg'),
+(55, 20, '4c03ba57-4652-419b-9a95-5060d90a7a90_i45.jpg'),
+(56, 21, '662779bf-dccc-4fd4-a3ff-2776b7e33c56_i47.jpg'),
+(57, 21, '30e4be56-4342-4935-8e03-8e411ea48b6c_i46.jpg'),
+(58, 21, 'a2feb7f4-ca64-45d1-b1be-f999fa55e646_i45.jpg'),
+(59, 21, 'f78e660d-4c92-488b-a281-c32e8746ac5a_i39.jpg'),
+(60, 22, '485b31fb-b78f-4a5a-a02d-e5b92d830db7_i46.jpg'),
+(61, 22, '72e0e1ea-9dcb-43d3-ae03-8ea91af24741_i45.jpg'),
+(62, 22, '1143d25f-dd3c-442b-bdd2-7721b8808799_i39.jpg'),
+(63, 22, '19ab1fb4-7d3a-4727-8c49-7bda70821e76_i38.jpg'),
+(64, 23, 'd6af8f20-1dc4-4ecc-9ab9-7171e08545c2_i36.jpg'),
+(65, 23, '2407ff18-747f-426b-b414-83305a9bbaea_i35.jpg'),
+(66, 23, '8d23c531-091a-403e-a585-2b11c02a97e5_i33.jpg'),
+(67, 23, 'fbd33240-9262-4e6b-ae98-b165d0c7bca6_i32.jpg'),
+(68, 24, 'ce9dc6b0-64f8-4cda-90ba-c83eb0003462_i30.jpg'),
+(69, 24, '574ed892-7304-4c3b-8320-68e1ca9683ab_i29.jpg'),
+(70, 24, '4d23f9ea-5c19-469e-a2e8-34aa15d81c47_i28.jpg'),
+(71, 24, 'e1cc2e27-e5b4-49c8-a0ae-a0fb0b6d1a4f_i27.jpg'),
+(72, 25, 'f30a09f3-f552-4ef5-b4b7-96682ed13d19_i26.jpg'),
+(73, 25, 'a9422fb0-60b0-4162-ad5f-51b129794e3d_i25.jpg'),
+(74, 25, 'd82a3815-14bd-4945-94e7-f384422ef1b3_i24.jpg'),
+(75, 25, 'a05e2977-cc7d-4cd6-a9c5-a647c6b96296_i23.jpg'),
+(76, 26, 'f8256238-6be9-497a-80e2-7c3c2d8a9825_i21.jpg'),
+(77, 26, 'e21e696a-e9b8-416c-9423-378c19e58616_i19.jpg'),
+(78, 26, '7d5a646b-0280-4a58-9846-41f6955aa120_i18.jpg'),
+(79, 26, '77564a91-e8f7-4068-a584-64326d8c3357_i17.jpg'),
+(80, 27, '3ea109a2-8443-4546-9727-a8cde2ada57f_i50.jpg'),
+(81, 27, '96cdd0c5-05d6-425c-be5d-ffa7dceb7a0f_i47.jpg'),
+(82, 27, 'b9e2c8bb-a321-49fd-a9cf-6458318fe16a_i28.jpg'),
+(83, 27, '39455a18-cb25-47f2-9ae5-cea50359423f_i17.jpg'),
+(84, 28, 'd89bee0c-0da6-4874-bd04-caf32b3df67a_i46.jpg'),
+(85, 28, 'd8e5dd18-61fd-4ac7-a113-d11324b06d93_i36.jpg'),
+(86, 28, '0bcfa108-9cf0-4489-a338-0584dce22acf_i29.jpg'),
+(87, 28, 'f099d2ae-6132-48cb-999b-9e07b031cfcd_i23.jpg'),
+(88, 29, '09682758-86c7-42fa-9acc-0afd284b7529_i49.jpg'),
+(89, 29, 'bd0c93d8-618b-4ecd-a378-5ed4bd1c83ab_i23.jpg'),
+(90, 29, '572ddfb2-cda4-4f4c-9fc0-45cec77f17c1_i43.jpg'),
+(91, 29, '179816dd-7ce9-43da-9be6-09cb2e995b60_i10.jpg'),
+(92, 30, 'f5bb4221-a51a-414c-9238-54bea5ed39c3_i52.jpg'),
+(93, 30, 'bba9ca41-bcd1-4ba1-a6e8-452277817d66_i50.jpg'),
+(94, 30, 'f86f50b4-842c-4d8f-9e4f-a43367d92404_i45.jpg'),
+(95, 30, '895cfa24-3269-46aa-b119-d5a83fa7e222_i33.jpg'),
+(96, 31, 'dfa7553e-12ff-445b-b6a3-dd451b54ba8d_i44.jpg'),
+(97, 31, '76178508-9ea5-495b-8a8e-e4a1bcc9d910_i43.jpg'),
+(98, 31, 'bda673c1-b417-48aa-8719-74508dccd02d_i42.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `roles`
+--
+
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL,
+  `name` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(1, 'user'),
+(2, 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `social_accounts`
+--
+
+CREATE TABLE `social_accounts` (
+  `id` int(11) NOT NULL,
+  `provider` varchar(20) NOT NULL COMMENT 'Tên nhà social network',
+  `provider_id` varchar(50) NOT NULL,
+  `email` varchar(150) NOT NULL COMMENT 'Email tài khoản',
+  `name` varchar(100) NOT NULL COMMENT 'Tên người dùng',
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tokens`
+--
+
+CREATE TABLE `tokens` (
+  `id` int(11) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `token_type` varchar(50) NOT NULL,
+  `expiration_date` datetime DEFAULT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expired` tinyint(1) NOT NULL,
+  `user_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `fullname` varchar(100) DEFAULT '',
+  `phone_number` varchar(10) NOT NULL,
+  `address` varchar(200) DEFAULT '',
+  `password` varchar(100) NOT NULL DEFAULT '',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1,
+  `date_of_birth` date DEFAULT NULL,
+  `facebook_account_id` int(11) DEFAULT 0,
+  `google_account_id` int(11) DEFAULT 0,
+  `role_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `fullname`, `phone_number`, `address`, `password`, `created_at`, `updated_at`, `is_active`, `date_of_birth`, `facebook_account_id`, `google_account_id`, `role_id`) VALUES
+(1, 'Nguyen Van A', '0987654321', 'manthien', '$2a$10$iw904QWQqQ1V1Zf95s/iLu.m.4Pl3eMFdAZuft3G7G0g4DrlScyJS', NULL, NULL, 0, '2000-11-11', 0, 0, 1),
+(2, 'siu', '0123456789', '97 man thien', '$2a$10$iw904QWQqQ1V1Zf95s/iLu.m.4Pl3eMFdAZuft3G7G0g4DrlScyJS', '2024-07-19 15:23:40', '2024-07-19 15:23:40', 0, '2003-03-01', 1, 1, 1),
+(3, 'siu', '0023456789', '97 man thien', '$2a$10$iw904QWQqQ1V1Zf95s/iLu.m.4Pl3eMFdAZuft3G7G0g4DrlScyJS', '2024-07-19 15:43:54', '2024-07-19 15:43:54', 0, '2003-03-01', 1, 1, 1),
+(4, 'siu', '0003456789', '97 man thien', '$2a$10$iw904QWQqQ1V1Zf95s/iLu.m.4Pl3eMFdAZuft3G7G0g4DrlScyJS', '2024-07-19 15:52:18', '2024-07-19 15:52:18', 0, '2003-03-01', 1, 1, 1),
+(5, 'siu', '0087654321', '97 man thien', '$2a$10$iw904QWQqQ1V1Zf95s/iLu.m.4Pl3eMFdAZuft3G7G0g4DrlScyJS', '2024-07-19 15:54:22', '2024-07-19 15:54:22', 0, '2003-03-01', 0, 0, 1),
+(6, 'dggdg', '1234565459', 'gggdg', '$2a$10$0SO1j7wmdk/NbsLfhSjvhuU3gXfFWyGg71XS38z0ARTbko1lAoR.2', '2024-07-25 14:35:01', '2024-07-25 14:35:01', 0, '2002-12-12', 0, 0, 1);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `categories`
+--
+ALTER TABLE `categories`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Indexes for table `product_images`
+--
+ALTER TABLE `product_images`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_product_images_product_id` (`product_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `social_accounts`
+--
+ALTER TABLE `social_accounts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `tokens`
+--
+ALTER TABLE `tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `token` (`token`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `role_id` (`role_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `categories`
+--
+ALTER TABLE `categories`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=924;
+
+--
+-- AUTO_INCREMENT for table `product_images`
+--
+ALTER TABLE `product_images`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+
+--
+-- AUTO_INCREMENT for table `social_accounts`
+--
+ALTER TABLE `social_accounts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tokens`
+--
+ALTER TABLE `tokens`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`);
+
+--
+-- Constraints for table `product_images`
+--
+ALTER TABLE `product_images`
+  ADD CONSTRAINT `fk_product_images_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+
+--
+-- Constraints for table `social_accounts`
+--
+ALTER TABLE `social_accounts`
+  ADD CONSTRAINT `social_accounts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `tokens`
+--
+ALTER TABLE `tokens`
+  ADD CONSTRAINT `tokens_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
