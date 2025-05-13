@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -25,6 +26,7 @@ import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 //@EnableMethodSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
 @EnableWebMvc
 @RequiredArgsConstructor
@@ -96,6 +98,9 @@ public class WebSecurityConfig {
 
                             .requestMatchers(DELETE,
                                     String.format("%s/orders/**", apiPrefix)).hasRole(Role.ADMIN)
+
+//                            .requestMatchers(GET,
+//                                    String.format("%s/orders/get-orders-by-keyword", apiPrefix)).hasAnyRole(Role.ADMIN)
 
                             .requestMatchers(POST,
                                     String.format("%s/order_details/**", apiPrefix)).hasAnyRole(Role.USER)
