@@ -12,7 +12,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     //Tìm các đơn hàng của 1 user nào đó
     List<Order> findByUserId(Long userId);
 
-    @Query("SELECT o FROM Order o WHERE (:keyword IS NULL OR :keyword = '' OR " +
+    @Query("SELECT o FROM Order o WHERE o.active = true and (:keyword IS NULL OR :keyword = '' OR " +
             "o.fullName LIKE %:keyword% " +
             "OR o.address LIKE %:keyword% " +
             "OR o.note LIKE %:keyword% " +
