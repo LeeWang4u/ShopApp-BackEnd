@@ -495,3 +495,320 @@
 2025-05-19 10:28:32.208 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-05-19 10:28:32.213 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-05-19 10:28:32.228 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-21 19:20:54.529 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-05-21 19:20:54.677 [main] INFO  c.project.shopapp.ShopappApplication - Starting ShopappApplication using Java 17.0.10 with PID 11308 (D:\LEQUANGHIEN\WorkSpace\Java\ShopApp-backend\shopapp\target\classes started by LAPTOP in D:\LEQUANGHIEN\WorkSpace\Java\ShopApp-backend\shopapp)
+2025-05-21 19:20:54.677 [main] INFO  c.project.shopapp.ShopappApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-21 19:20:56.959 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-21 19:20:57.193 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 213 ms. Found 7 JPA repository interfaces.
+2025-05-21 19:20:58.826 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8088 (http)
+2025-05-21 19:20:58.855 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8088"]
+2025-05-21 19:20:58.858 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-21 19:20:58.859 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-05-21 19:20:58.978 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-21 19:20:58.978 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 4062 ms
+2025-05-21 19:20:59.271 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-21 19:20:59.448 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.8.Final
+2025-05-21 19:20:59.534 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-21 19:21:00.156 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-21 19:21:00.219 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-21 19:21:00.578 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@794cb26b
+2025-05-21 19:21:00.578 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-21 19:21:00.703 [main] WARN  org.hibernate.dialect.Dialect - HHH000511: The 5.5.0 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-21 19:21:04.342 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-21 19:21:04.342 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-21 19:21:05.153 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-21 19:21:05.388 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-21 19:21:06.599 [main] DEBUG o.s.s.a.p.PrePostAnnotationSecurityMetadataSource - @org.springframework.security.access.prepost.PreAuthorize("hasRole(\'ROLE_ADMIN\')") found on specific method: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int)
+2025-05-21 19:21:06.630 [main] DEBUG o.s.s.a.m.DelegatingMethodSecurityMetadataSource - Caching method [CacheKey[com.project.shopapp.controllers.OrderController; public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int)]] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:21:07.515 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@378e50b9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@40fdcbd5, org.springframework.security.web.context.SecurityContextHolderFilter@3d49b00e, org.springframework.security.web.header.HeaderWriterFilter@6b6d68d2, org.springframework.web.filter.CorsFilter@c512269, org.springframework.security.web.authentication.logout.LogoutFilter@7ce299c6, com.project.shopapp.filters.JwtTokenFilter@6c0bf8f4, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@59fe8d94, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@479f5c35, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@537dc661, org.springframework.security.web.access.ExceptionTranslationFilter@6e9d60e1, org.springframework.security.web.access.intercept.AuthorizationFilter@164c2914]
+2025-05-21 19:21:08.279 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8088"]
+2025-05-21 19:21:08.310 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8088 (http) with context path ''
+2025-05-21 19:21:08.326 [main] INFO  c.project.shopapp.ShopappApplication - Started ShopappApplication in 14.711 seconds (process running for 17.407)
+2025-05-21 19:21:50.450 [http-nio-8088-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-21 19:21:50.450 [http-nio-8088-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-21 19:21:50.452 [http-nio-8088-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-05-21 19:21:50.476 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/categories?page=1&limit=100
+2025-05-21 19:21:50.476 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products?keyword=&category_id=0&page=1&limit=12
+2025-05-21 19:21:50.512 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products?keyword=&category_id=0&page=1&limit=12
+2025-05-21 19:21:50.512 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/categories?page=1&limit=100
+2025-05-21 19:21:50.556 [http-nio-8088-exec-1] INFO  c.p.s.controllers.ProductController - keyword = , category_id = 0, page = 1, limit = 12
+2025-05-21 19:21:50.906 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.051 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.128 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/7a077340-dbd1-47fa-871a-896465cf6d9a_i48.jpg
+2025-05-21 19:21:51.128 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/7a077340-dbd1-47fa-871a-896465cf6d9a_i48.jpg
+2025-05-21 19:21:51.128 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/662779bf-dccc-4fd4-a3ff-2776b7e33c56_i47.jpg
+2025-05-21 19:21:51.144 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/662779bf-dccc-4fd4-a3ff-2776b7e33c56_i47.jpg
+2025-05-21 19:21:51.175 [http-nio-8088-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.179 [http-nio-8088-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.325 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/485b31fb-b78f-4a5a-a02d-e5b92d830db7_i46.jpg
+2025-05-21 19:21:51.327 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/485b31fb-b78f-4a5a-a02d-e5b92d830db7_i46.jpg
+2025-05-21 19:21:51.354 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/d6af8f20-1dc4-4ecc-9ab9-7171e08545c2_i36.jpg
+2025-05-21 19:21:51.355 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.356 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/d6af8f20-1dc4-4ecc-9ab9-7171e08545c2_i36.jpg
+2025-05-21 19:21:51.374 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/ce9dc6b0-64f8-4cda-90ba-c83eb0003462_i30.jpg
+2025-05-21 19:21:51.382 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/ce9dc6b0-64f8-4cda-90ba-c83eb0003462_i30.jpg
+2025-05-21 19:21:51.387 [http-nio-8088-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.391 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/f30a09f3-f552-4ef5-b4b7-96682ed13d19_i26.jpg
+2025-05-21 19:21:51.391 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/f30a09f3-f552-4ef5-b4b7-96682ed13d19_i26.jpg
+2025-05-21 19:21:51.399 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/f8256238-6be9-497a-80e2-7c3c2d8a9825_i21.jpg
+2025-05-21 19:21:51.400 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/f8256238-6be9-497a-80e2-7c3c2d8a9825_i21.jpg
+2025-05-21 19:21:51.417 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.440 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/3ea109a2-8443-4546-9727-a8cde2ada57f_i50.jpg
+2025-05-21 19:21:51.441 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/3ea109a2-8443-4546-9727-a8cde2ada57f_i50.jpg
+2025-05-21 19:21:51.486 [http-nio-8088-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.546 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/09682758-86c7-42fa-9acc-0afd284b7529_i49.jpg
+2025-05-21 19:21:51.546 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/09682758-86c7-42fa-9acc-0afd284b7529_i49.jpg
+2025-05-21 19:21:51.546 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/d89bee0c-0da6-4874-bd04-caf32b3df67a_i46.jpg
+2025-05-21 19:21:51.546 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/d89bee0c-0da6-4874-bd04-caf32b3df67a_i46.jpg
+2025-05-21 19:21:51.582 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.582 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/f5bb4221-a51a-414c-9238-54bea5ed39c3_i52.jpg
+2025-05-21 19:21:51.585 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/f5bb4221-a51a-414c-9238-54bea5ed39c3_i52.jpg
+2025-05-21 19:21:51.587 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.601 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/dfa7553e-12ff-445b-b6a3-dd451b54ba8d_i44.jpg
+2025-05-21 19:21:51.602 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/dfa7553e-12ff-445b-b6a3-dd451b54ba8d_i44.jpg
+2025-05-21 19:21:51.627 [http-nio-8088-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.645 [http-nio-8088-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.645 [http-nio-8088-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:51.655 [http-nio-8088-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.151 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products?keyword=&category_id=0&page=1&limit=12
+2025-05-21 19:21:52.153 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/categories?page=1&limit=100
+2025-05-21 19:21:52.156 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/categories?page=1&limit=100
+2025-05-21 19:21:52.156 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products?keyword=&category_id=0&page=1&limit=12
+2025-05-21 19:21:52.159 [http-nio-8088-exec-5] INFO  c.p.s.controllers.ProductController - keyword = , category_id = 0, page = 1, limit = 12
+2025-05-21 19:21:52.177 [http-nio-8088-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.267 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.285 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/7a077340-dbd1-47fa-871a-896465cf6d9a_i48.jpg
+2025-05-21 19:21:52.286 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/7a077340-dbd1-47fa-871a-896465cf6d9a_i48.jpg
+2025-05-21 19:21:52.288 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/662779bf-dccc-4fd4-a3ff-2776b7e33c56_i47.jpg
+2025-05-21 19:21:52.288 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/662779bf-dccc-4fd4-a3ff-2776b7e33c56_i47.jpg
+2025-05-21 19:21:52.294 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.294 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/ce9dc6b0-64f8-4cda-90ba-c83eb0003462_i30.jpg
+2025-05-21 19:21:52.294 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/ce9dc6b0-64f8-4cda-90ba-c83eb0003462_i30.jpg
+2025-05-21 19:21:52.294 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/f30a09f3-f552-4ef5-b4b7-96682ed13d19_i26.jpg
+2025-05-21 19:21:52.294 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/f30a09f3-f552-4ef5-b4b7-96682ed13d19_i26.jpg
+2025-05-21 19:21:52.294 [http-nio-8088-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.294 [http-nio-8088-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.314 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/d6af8f20-1dc4-4ecc-9ab9-7171e08545c2_i36.jpg
+2025-05-21 19:21:52.314 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/485b31fb-b78f-4a5a-a02d-e5b92d830db7_i46.jpg
+2025-05-21 19:21:52.315 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/d6af8f20-1dc4-4ecc-9ab9-7171e08545c2_i36.jpg
+2025-05-21 19:21:52.314 [http-nio-8088-exec-10] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.315 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/485b31fb-b78f-4a5a-a02d-e5b92d830db7_i46.jpg
+2025-05-21 19:21:52.320 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.324 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.330 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/f8256238-6be9-497a-80e2-7c3c2d8a9825_i21.jpg
+2025-05-21 19:21:52.330 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/f8256238-6be9-497a-80e2-7c3c2d8a9825_i21.jpg
+2025-05-21 19:21:52.330 [http-nio-8088-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.343 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/3ea109a2-8443-4546-9727-a8cde2ada57f_i50.jpg
+2025-05-21 19:21:52.344 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/3ea109a2-8443-4546-9727-a8cde2ada57f_i50.jpg
+2025-05-21 19:21:52.346 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/d89bee0c-0da6-4874-bd04-caf32b3df67a_i46.jpg
+2025-05-21 19:21:52.347 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/09682758-86c7-42fa-9acc-0afd284b7529_i49.jpg
+2025-05-21 19:21:52.348 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/09682758-86c7-42fa-9acc-0afd284b7529_i49.jpg
+2025-05-21 19:21:52.348 [http-nio-8088-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.349 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/d89bee0c-0da6-4874-bd04-caf32b3df67a_i46.jpg
+2025-05-21 19:21:52.352 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.352 [http-nio-8088-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.374 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/f5bb4221-a51a-414c-9238-54bea5ed39c3_i52.jpg
+2025-05-21 19:21:52.381 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/f5bb4221-a51a-414c-9238-54bea5ed39c3_i52.jpg
+2025-05-21 19:21:52.394 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:52.402 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/products/images/dfa7553e-12ff-445b-b6a3-dd451b54ba8d_i44.jpg
+2025-05-21 19:21:52.403 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/products/images/dfa7553e-12ff-445b-b6a3-dd451b54ba8d_i44.jpg
+2025-05-21 19:21:52.403 [http-nio-8088-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:21:56.975 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/roles
+2025-05-21 19:21:56.976 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/roles
+2025-05-21 19:21:56.999 [http-nio-8088-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:22:03.521 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/users/login
+2025-05-21 19:22:03.521 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/v1/users/login
+2025-05-21 19:22:03.521 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/v1/users/login
+2025-05-21 19:22:03.983 [http-nio-8088-exec-8] DEBUG o.s.s.a.d.DaoAuthenticationProvider - Authenticated user
+2025-05-21 19:22:04.030 [http-nio-8088-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:22:04.030 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/users/details
+2025-05-21 19:22:04.047 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing POST /api/v1/users/details
+2025-05-21 19:22:04.116 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured POST /api/v1/users/details
+2025-05-21 19:22:07.472 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:22:07.479 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:22:07.505 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:22:07.520 [http-nio-8088-exec-4] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:22:11.526 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:22:11.554 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:22:11.554 [http-nio-8088-exec-3] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:22:11.577 [http-nio-8088-exec-3] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:24:08.631 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:24:08.643 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:24:08.668 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:24:08.670 [http-nio-8088-exec-8] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:25:33.600 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:25:33.602 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:25:33.602 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:25:33.645 [http-nio-8088-exec-1] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8088/error?continue to session
+2025-05-21 19:25:33.645 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:28:11.909 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/6
+2025-05-21 19:28:11.911 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:28:11.912 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:28:11.913 [http-nio-8088-exec-5] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8088/error?continue to session
+2025-05-21 19:28:11.913 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:28:16.571 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:28:16.574 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:28:16.574 [http-nio-8088-exec-6] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:28:16.575 [http-nio-8088-exec-6] DEBUG o.s.s.w.s.HttpSessionRequestCache - Saved request http://localhost:8088/error?continue to session
+2025-05-21 19:28:16.575 [http-nio-8088-exec-6] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:28:25.970 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:28:25.983 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:28:34.186 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:28:34.201 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:28:44.829 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:28:44.843 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:28:44.843 [http-nio-8088-exec-8] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:28:44.843 [http-nio-8088-exec-8] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:28:48.384 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:28:48.386 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:28:48.386 [http-nio-8088-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:28:48.386 [http-nio-8088-exec-9] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:28:57.482 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:28:57.484 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:28:57.485 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:28:57.485 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:33:42.627 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:33:42.633 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:33:42.662 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:33:42.665 [http-nio-8088-exec-10] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:33:43.304 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:33:43.307 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:33:43.307 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:33:43.308 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:33:44.010 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:33:44.017 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:33:44.018 [http-nio-8088-exec-9] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:33:44.019 [http-nio-8088-exec-9] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:35:54.755 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:35:54.758 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:35:54.758 [http-nio-8088-exec-4] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:35:54.759 [http-nio-8088-exec-4] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:35:57.368 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:35:57.374 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:35:57.454 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:36:16.416 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:36:16.431 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/v1/orders/1
+2025-05-21 19:36:16.436 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /error
+2025-05-21 19:36:16.437 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:36:16.437 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:36:42.427 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:36:42.431 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/v1/orders/1
+2025-05-21 19:36:42.432 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /error
+2025-05-21 19:36:42.433 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:36:42.433 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:36:43.290 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/v1/orders/1
+2025-05-21 19:36:43.290 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /error
+2025-05-21 19:36:43.291 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:36:43.291 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:37:56.967 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:37:56.972 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:37:56.972 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:37:56.972 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:37:57.554 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:37:57.570 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:37:57.677 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:37:58.789 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:37:58.793 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:37:58.794 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:37:58.794 [http-nio-8088-exec-7] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:37:59.140 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:37:59.184 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:38:03.357 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:38:03.360 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/v1/orders/1
+2025-05-21 19:38:03.373 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured PUT /api/v1/orders/1
+2025-05-21 19:38:04.055 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:38:04.062 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:38:04.081 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:38:04.082 [http-nio-8088-exec-3] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:38:53.652 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:38:53.659 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:38:53.679 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:38:58.618 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:38:58.621 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/v1/orders/1
+2025-05-21 19:38:58.630 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Secured PUT /api/v1/orders/1
+2025-05-21 19:38:58.720 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:38:58.726 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:38:58.745 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:38:58.747 [http-nio-8088-exec-1] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:41:26.314 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:41:26.322 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:41:26.337 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:45:01.369 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-21 19:45:01.381 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-21 19:45:01.405 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-05-21 19:45:23.221 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-05-21 19:45:23.292 [main] INFO  c.project.shopapp.ShopappApplication - Starting ShopappApplication using Java 17.0.10 with PID 15108 (D:\LEQUANGHIEN\WorkSpace\Java\ShopApp-backend\shopapp\target\classes started by LAPTOP in D:\LEQUANGHIEN\WorkSpace\Java\ShopApp-backend\shopapp)
+2025-05-21 19:45:23.293 [main] INFO  c.project.shopapp.ShopappApplication - No active profile set, falling back to 1 default profile: "default"
+2025-05-21 19:45:25.070 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-05-21 19:45:25.254 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 168 ms. Found 7 JPA repository interfaces.
+2025-05-21 19:45:26.382 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8088 (http)
+2025-05-21 19:45:26.396 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8088"]
+2025-05-21 19:45:26.399 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-05-21 19:45:26.400 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.24]
+2025-05-21 19:45:26.490 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-05-21 19:45:26.491 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3110 ms
+2025-05-21 19:45:26.680 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-05-21 19:45:26.768 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.8.Final
+2025-05-21 19:45:26.820 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-05-21 19:45:27.158 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-05-21 19:45:27.197 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-05-21 19:45:27.391 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5b7ee56c
+2025-05-21 19:45:27.393 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-05-21 19:45:27.470 [main] WARN  org.hibernate.dialect.Dialect - HHH000511: The 5.5.0 version for [org.hibernate.dialect.MySQLDialect] is no longer supported, hence certain features may not work properly. The minimum supported version is 8.0.0. Check the community dialects project for available legacy versions.
+2025-05-21 19:45:29.147 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-05-21 19:45:29.151 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-05-21 19:45:29.616 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-05-21 19:45:29.766 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-05-21 19:45:30.466 [main] DEBUG o.s.s.a.p.PrePostAnnotationSecurityMetadataSource - @org.springframework.security.access.prepost.PreAuthorize("hasRole(\'ROLE_ADMIN\')") found on specific method: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int)
+2025-05-21 19:45:30.489 [main] DEBUG o.s.s.a.m.DelegatingMethodSecurityMetadataSource - Caching method [CacheKey[com.project.shopapp.controllers.OrderController; public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int)]] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:45:31.275 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@164c2914, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4690132, org.springframework.security.web.context.SecurityContextHolderFilter@6bcc277a, org.springframework.security.web.header.HeaderWriterFilter@77f5cffd, org.springframework.web.filter.CorsFilter@46c33614, org.springframework.security.web.authentication.logout.LogoutFilter@531245fe, com.project.shopapp.filters.JwtTokenFilter@25093079, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3a4e3343, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@64e06cf0, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@378e50b9, org.springframework.security.web.access.ExceptionTranslationFilter@70d28000, org.springframework.security.web.access.intercept.AuthorizationFilter@7ce299c6]
+2025-05-21 19:45:31.840 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8088"]
+2025-05-21 19:45:31.877 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8088 (http) with context path ''
+2025-05-21 19:45:31.891 [main] INFO  c.project.shopapp.ShopappApplication - Started ShopappApplication in 9.438 seconds (process running for 11.439)
+2025-05-21 19:47:02.006 [http-nio-8088-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-05-21 19:47:02.006 [http-nio-8088-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-05-21 19:47:02.009 [http-nio-8088-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
+2025-05-21 19:47:02.049 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:47:02.049 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:47:02.140 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:47:02.140 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:47:02.148 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:47:02.149 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:47:02.157 [http-nio-8088-exec-2] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:47:02.177 [http-nio-8088-exec-1] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:47:03.257 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:47:03.287 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:47:03.751 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:47:17.539 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:47:17.542 [http-nio-8088-exec-5] DEBUG o.s.security.web.FilterChainProxy - Securing GET /error
+2025-05-21 19:47:17.542 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.AnonymousAuthenticationFilter - Set SecurityContextHolder to anonymous SecurityContext
+2025-05-21 19:47:17.543 [http-nio-8088-exec-5] DEBUG o.s.s.w.a.Http403ForbiddenEntryPoint - Pre-authenticated entry point called. Rejecting access
+2025-05-21 19:47:17.848 [http-nio-8088-exec-6] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:47:17.910 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:47:17.952 [http-nio-8088-exec-7] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:47:19.738 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:47:19.749 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:47:19.770 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:47:19.798 [http-nio-8088-exec-9] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:47:22.312 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/1
+2025-05-21 19:47:22.333 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/1
+2025-05-21 19:47:29.443 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/1
+2025-05-21 19:47:29.446 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Securing PUT /api/v1/orders/1
+2025-05-21 19:47:29.460 [http-nio-8088-exec-1] DEBUG o.s.security.web.FilterChainProxy - Secured PUT /api/v1/orders/1
+2025-05-21 19:47:30.178 [http-nio-8088-exec-3] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:47:30.184 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:47:30.206 [http-nio-8088-exec-4] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:47:30.208 [http-nio-8088-exec-4] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:49:09.244 [http-nio-8088-exec-8] DEBUG o.s.security.web.FilterChainProxy - Securing OPTIONS /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:49:09.248 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:49:09.270 [http-nio-8088-exec-9] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:49:09.274 [http-nio-8088-exec-9] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:49:11.142 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:49:11.168 [http-nio-8088-exec-10] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:49:11.170 [http-nio-8088-exec-10] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:49:12.074 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Securing GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:49:12.098 [http-nio-8088-exec-2] DEBUG o.s.security.web.FilterChainProxy - Secured GET /api/v1/orders/get-orders-by-keyword?keyword=&page=0&limit=12
+2025-05-21 19:49:12.100 [http-nio-8088-exec-2] DEBUG o.s.s.a.i.a.MethodSecurityInterceptor - Authorized ReflectiveMethodInvocation: public org.springframework.http.ResponseEntity com.project.shopapp.controllers.OrderController.getOrdersByKeyword(java.lang.String,int,int); target is of class [com.project.shopapp.controllers.OrderController] with attributes [[authorize: 'hasRole('ROLE_ADMIN')', filter: 'null', filterTarget: 'null']]
+2025-05-21 19:49:26.327 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-05-21 19:49:26.332 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-05-21 19:49:26.353 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

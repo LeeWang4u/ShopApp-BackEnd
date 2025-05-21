@@ -2,6 +2,8 @@ package com.project.shopapp.services;
 
 import com.project.shopapp.dtos.CartItemDTO;
 import com.project.shopapp.dtos.OrderDTO;
+import com.project.shopapp.dtos.OrderDetailDTO;
+import com.project.shopapp.dtos.OrderWithDetailsDTO;
 import com.project.shopapp.exceptions.DataNotFoundException;
 import com.project.shopapp.models.*;
 import com.project.shopapp.repositories.OrderDetailRepository;
@@ -54,6 +56,7 @@ public class OrderService implements IOrderService{
         }
         order.setShippingDate(shippingDate);
         order.setActive(true);
+        order.setTotalMoney(orderDTO.getTotalMoney());
         orderRepository.save(order);
 
         // Tạo danh sách các đối tượng OrderDetail từ cartItems
@@ -85,6 +88,28 @@ public class OrderService implements IOrderService{
         // Lưu danh sách OrderDetail vào cơ sở dữ liệu
         orderDetailRepository.saveAll(orderDetails);
         return order;
+    }
+
+    @Transactional
+    public Order updateOrderWithDetails(OrderWithDetailsDTO orderWithDetailsDTO) {
+        modelMapper.typeMap(OrderWithDetailsDTO.class, Order.class)
+                .addMappings(mapper -> mapper.skip(Order::setId));
+        Order order = new Order();
+        modelMapper.map(orderWithDetailsDTO, order);
+        Order savedOrder = orderRepository.save(order);
+
+        // Set the order for each order detail
+        for (OrderDetailDTO orderDetailDTO : orderWithDetailsDTO.getOrderDetailDTOS()) {
+            //orderDetail.setOrder(OrderDetail);
+        }
+
+        // Save or update the order details
+        List<OrderDetail> savedOrderDetails = orderDetailRepository.saveAll(order.getOrderDetails());
+
+        // Set the updated order details for the order
+        savedOrder.setOrderDetails(savedOrderDetails);
+
+        return savedOrder;
     }
 
     @Override

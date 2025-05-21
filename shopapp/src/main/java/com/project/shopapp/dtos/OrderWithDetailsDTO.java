@@ -1,5 +1,6 @@
 package com.project.shopapp.dtos;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -7,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class OrderDTO {
+public class OrderWithDetailsDTO {
 
     @JsonProperty("user_id")
     @Min(value = 1, message = "User's ID must be > 0")
@@ -52,11 +52,6 @@ public class OrderDTO {
     @JsonProperty("payment_method")
     private String paymentMethod;
 
-    @JsonProperty("status")
-    private String status;
-
-    @JsonProperty("cart_items")
-    private List<CartItemDTO> cartItems;
-
-
+    @JsonProperty("order_details")
+    private List<OrderDetailDTO> orderDetailDTOS;
 }
