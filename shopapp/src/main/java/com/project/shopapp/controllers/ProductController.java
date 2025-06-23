@@ -1,5 +1,6 @@
 package com.project.shopapp.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.javafaker.Faker;
 import com.project.shopapp.components.LocalizationUtils;
 import com.project.shopapp.dtos.ProductDTO;
@@ -9,6 +10,7 @@ import com.project.shopapp.models.ProductImage;
 import com.project.shopapp.responses.ProductListResponse;
 import com.project.shopapp.responses.ProductResponse;
 import com.project.shopapp.services.IProductService;
+import com.project.shopapp.services.ProductRedisService;
 import com.project.shopapp.utils.MessageKeys;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,7 @@ public class ProductController {
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final IProductService productService;
     private final LocalizationUtils localizationUtils;
+    private final ProductRedisService productRedisService;
 
 
     @GetMapping("/{id}")
@@ -182,7 +185,8 @@ public class ProductController {
             @RequestParam(defaultValue = "0", name = "category_id") Long categoryId,
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int limit
-    ) {
+    ) throws JsonProcessingException {
+        int totalPages = 0;
         //page--;
         if(page <1) page =1;
         // Tạo Pageable từ thông tin trang và giới hạn
@@ -193,13 +197,25 @@ public class ProductController {
         );
         logger.info(String.format("keyword = %s, category_id = %d, page = %d, limit = %d",
                 keyword, categoryId, page, limit));
-        Page<ProductResponse> productPage = productService.getAllProducts(keyword, categoryId, pageRequest);
-        // Lấy tổng số trang
-        int totalPages = productPage.getTotalPages();
-        List<ProductResponse> products = productPage.getContent();
+        List<ProductResponse> productResponses = productRedisService
+                .getAllProducts(keyword, categoryId, pageRequest);
+        if(productResponses == null) {
+            Page<ProductResponse> productPage = productService
+                    .getAllProducts(keyword, categoryId, pageRequest);
+            // Lấy tổng số trang
+            totalPages = productPage.getTotalPages();
+            productResponses = productPage.getContent();
+            productRedisService.saveAllProducts(
+                    productResponses,
+                    keyword,
+                    categoryId,
+                    pageRequest
+            );
+        }
+
         return ResponseEntity.ok(ProductListResponse
                 .builder()
-                .products(products)
+                .products(productResponses)
                 .totalPages(totalPages)
                 .build());
     }

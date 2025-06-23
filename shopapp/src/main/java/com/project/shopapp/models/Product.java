@@ -2,6 +2,7 @@ package com.project.shopapp.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.context.event.EventListener;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+//@EntityListeners(ProductListener.class)
 public class Product extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
