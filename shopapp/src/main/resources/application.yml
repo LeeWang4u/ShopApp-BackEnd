@@ -7,6 +7,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: ${MYSQL_ROOT_PASSWORD:}
+#    password: ${MYSQL_ROOT_PASSWORD:Abc123456789@}
   jpa:
     show-sql: true
     hibernate:
